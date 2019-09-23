@@ -67,7 +67,7 @@ module.exports = {
 						}
 					}
 				]
-			}/*, {
+			}, {
 				test: /\.(jpe?g|png|gif|svg|ttf|ogg|webp)$/,
 				use: [
 					{
@@ -77,34 +77,9 @@ module.exports = {
 							outputPath: 'assets/',
 							useRelativePath: true,
 						}
-					},
-					{
-						loader: 'image-webpack-loader',
-						options: {
-							mozjpeg: {
-								progressive: true,
-								quality: 90
-							},
-							optipng: {
-								enabled: true,
-							},
-							pngquant: {
-								quality: '80-90',
-								speed: 4
-							},
-							gifsicle: {
-								interlaced: false,
-							},
-							webp: {
-								quality: 95
-							}
-						}
 					}
 				]
-			}*//*, {
-				test: /\.(fs|vs|glsl|txt)$/i,
-				use: 'raw-loader',
-			}*/
+			}
 		],
 	},
 

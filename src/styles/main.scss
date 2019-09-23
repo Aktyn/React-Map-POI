@@ -1,3 +1,27 @@
+@font-face {
+    font-family: RobotoRegular;
+	font-display: swap;
+    src: url('./Roboto-Regular.ttf');
+}
+
 html, body {
 	margin: 0;
+	padding: 0;
+	
+	-webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+	
+	vertical-align: middle;
+	
+	background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+	
+	box-sizing: border-box;
+	text-align: center;
+	
+	color: #fff;
+	text-shadow: 0 1px 1px #0003;
+	font-size: 13px;
+	font-family: RobotoRegular, Arial, serif;
 }
