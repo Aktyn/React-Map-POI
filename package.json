@@ -1,0 +1,19 @@
+{
+	"name": "react-map-poi",
+	"version": "1.0.0",
+	"description": "Project created for recruitment purposes",
+	"main": "dist/index.html",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Aktyn/React-Map-POI.git"
+	},
+	"author": "Aktyn",
+	"license": "UNLICENSED",
+	"bugs": {
+		"url": "https://github.com/Aktyn/React-Map-POI/issues"
+	},
+	"homepage": "https://github.com/Aktyn/React-Map-POI#readme"
+}
