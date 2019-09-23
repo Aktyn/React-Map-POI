@@ -2,7 +2,6 @@ import * as React from 'react';
 import { render } from 'react-dom';
 
 import './styles/main.scss';
+import App from "./App";
 
-const MainView = () => <div>Main View</div>;
-
-render(<MainView />, document.getElementById('root'));
+render(<App />, document.getElementById('root'));
