@@ -4,7 +4,9 @@
 	"description": "Project created for recruitment purposes",
 	"main": "dist/index.html",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev": "webpack-dev-server --config ./webpack.config.js",
+		"publish": "NODE_ENV='production' webpack --config ./webpack.config.js -p",
+		"publish:windows": "set NODE_ENV=production&&webpack --config ./webpack.config.js -p"
 	},
 	"repository": {
 		"type": "git",
@@ -15,5 +17,26 @@
 	"bugs": {
 		"url": "https://github.com/Aktyn/React-Map-POI/issues"
 	},
-	"homepage": "https://github.com/Aktyn/React-Map-POI#readme"
+	"homepage": "https://github.com/Aktyn/React-Map-POI#readme",
+	"dependencies": {
+		"react": "^16.9.0",
+		"react-dom": "^16.9.0"
+	},
+	"devDependencies": {
+		"@types/react": "^16.9.2",
+		"@types/react-dom": "^16.9.0",
+		"autoprefixer": "^9.6.1",
+		"css-loader": "^3.2.0",
+		"html-webpack-plugin": "^3.2.0",
+		"mini-css-extract-plugin": "^0.8.0",
+		"node-sass": "^4.12.0",
+		"postcss-loader": "^3.0.0",
+		"sass-loader": "^8.0.0",
+		"style-loader": "^1.0.0",
+		"ts-loader": "^6.1.2",
+		"typescript": "^3.6.3",
+		"webpack": "^4.40.2",
+		"webpack-cli": "^3.3.9",
+		"webpack-dev-server": "^3.8.1"
+	}
 }
