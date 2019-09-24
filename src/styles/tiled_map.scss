@@ -9,12 +9,20 @@
 	
 	& > .layers-container {//container for layers
 		pointer-events: auto;
+		user-select: none;
+		cursor: grab;
+		
+		&.grabbed {
+			cursor: grabbing;
+		}
+		
 		& > .layer {//layer of tiles
 			pointer-events: none;
 			width: 100%;
 			height: 100%;
 			position: relative;
-			background-color: black;
+			//background-color: black;
+			perspective: 1000px;
 			
 			& > * {//tile
 				//position tile at center of the screen
@@ -24,12 +32,24 @@
 				left: 0; right: 0;
 				
 				display: block;
-				//box-shadow: 0 0 1px #fff;
+				
+				opacity: 0.2;
+				
+				$anim: 1s ease-in-out;
+				transition: transform $anim, opacity $anim;
+				
+				/*&.loaded {
+					opacity: 1;
+				}*/
 			}
 		}
 	}
 	
 	& > .overlays {
 		pointer-events: none;
+		
+		& > * {
+			pointer-events: auto;
+		}
 	}
 }

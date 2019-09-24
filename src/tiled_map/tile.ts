@@ -1,5 +1,4 @@
 
-
 export default class Tile {
 	private static id_counter = 0;
 	
