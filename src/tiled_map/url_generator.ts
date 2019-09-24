@@ -1,4 +1,4 @@
-const subdomains = ['a', 'b', 'c'];
+export const subdomains = ['a', 'b', 'c'];
 
 function strEnum<T extends string>(o: Array<T>): { [K in T]: string } {
 	return o.reduce((res, key) => {
@@ -74,11 +74,11 @@ export default class UrlGenerator {
 		return subdomains[this.subdomain_index];
 	}
 	
-	public generate(tile_x: number, tile_y: number, zoom = 13) {
+	public generate(tile_x: number, tile_y: number, zoom = 13, subdomain = this.nextSubdomain()) {
 		//TODO: limit tile_x and tile_y
 		
 		return this.concatenateUrl({
-			subdomain: this.nextSubdomain(),
+			subdomain: subdomain,
 			x: tile_x|0,
 			y: tile_y|0,
 			z: zoom

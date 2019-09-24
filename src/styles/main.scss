@@ -1,3 +1,5 @@
+@import "global";
+
 @font-face {
     font-family: RobotoRegular;
 	font-display: swap;
@@ -20,8 +22,10 @@ html, body {
 	box-sizing: border-box;
 	text-align: center;
 	
-	color: #fff;
 	text-shadow: 0 1px 1px #0003;
 	font-size: 13px;
 	font-family: RobotoRegular, Arial, serif;
+	
+	color: #fff;
+	background-color: nth($blueGrey, 3);
 }

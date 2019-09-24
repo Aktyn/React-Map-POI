@@ -5,14 +5,17 @@ import {CameraState, TilePos, convertLatLongToTile, convertXYZToLatLong} from ".
 
 import '../styles/tiled_map.scss';
 
+const OUTER_TILES = 2;
+
 interface MapProps {
 	width: number;
 	height: number;
 }
 
-interface MapState extends GridState {
+interface MapState {
 	camera: CameraState;
 	centerTile: TilePos;
+	grid: GridState;
 	grabPos: {x: number, y: number} | null;
 }
 
@@ -26,8 +29,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			zoom: 0
 		},
 		centerTile: {x: 0, y: 0},
-		tilesX: Math.ceil(this.props.width / TILE_SIZE),
-		tilesY: Math.ceil(this.props.height / TILE_SIZE),
+		grid: this.calculateGrid(),
 		
 		grabPos: null
 	};
@@ -54,10 +56,24 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	componentDidUpdate(prevProps: Readonly<MapProps>) {
 		if(prevProps.width !== this.props.width || prevProps.height !== this.props.height) {
 			this.setState({
-				tilesX: Math.ceil(this.props.width / TILE_SIZE),
-				tilesY: Math.ceil(this.props.height / TILE_SIZE)
+				grid: this.calculateGrid()
 			});
 		}
+	}
+	
+	private calculateGrid(): GridState {
+		let tilesX = TiledMap.calculateTiles(this.props.width),
+			tilesY = TiledMap.calculateTiles(this.props.height);
+		return {
+			tilesX,
+			tilesY,
+			maxTilesX: tilesX * 2,
+			maxTilesY: tilesY * 2
+		};
+	}
+	
+	private static calculateTiles(distance: number) {
+		return Math.ceil(distance / TILE_SIZE) + OUTER_TILES;
 	}
 	
 	private onGrabStart(x: number, y: number) {
@@ -109,7 +125,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			     onMouseMove={e => this.onGrabMove(e.clientX, e.clientY)}
 			     onTouchMove={e => this.onGrabMove(e.touches[0].clientX, e.touches[0].clientY)} >
 				<Layer urlGenerator={this.urlGenerator} camera={this.state.camera} centerTile={this.state.centerTile}
-				       tilesX={this.state.tilesX} tilesY={this.state.tilesY} />
+				       grid={this.state.grid} />
 			</div>
 			<div className={'overlays'}>{this.props.children}</div>
 		</div>;
