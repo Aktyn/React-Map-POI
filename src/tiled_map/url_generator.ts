@@ -1,5 +1,3 @@
-import {clamp, convertLatLongToTile} from "../utils";
-
 const subdomains = ['a', 'b', 'c'];
 
 function strEnum<T extends string>(o: Array<T>): { [K in T]: string } {
@@ -76,17 +74,13 @@ export default class UrlGenerator {
 		return subdomains[this.subdomain_index];
 	}
 	
-	public generate(latitude: number, longitude: number, zoom = 13) {
-		//TODO: limit argument values
-		zoom = clamp(zoom, 0, 19);
+	public generate(tile_x: number, tile_y: number, zoom = 13) {
 		
-		
-		const {xTile, yTile} = convertLatLongToTile(latitude, longitude, zoom);
 		
 		return this.concatenateUrl({
 			subdomain: this.nextSubdomain(),
-			x: xTile|0,
-			y: yTile|0,
+			x: tile_x|0,
+			y: tile_y|0,
 			z: zoom
 		});
 	}
