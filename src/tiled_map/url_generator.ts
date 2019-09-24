@@ -75,7 +75,7 @@ export default class UrlGenerator {
 	}
 	
 	public generate(tile_x: number, tile_y: number, zoom = 13) {
-		
+		//TODO: limit tile_x and tile_y
 		
 		return this.concatenateUrl({
 			subdomain: this.nextSubdomain(),
