@@ -36,7 +36,7 @@
 				width: 100%;
 				height: 100%;
 				
-				transition: transform 0.4s cubic-bezier(.36,.07,.19,.97);
+				transition: transform $zoomingTrans;
 				
 				img { //tile
 					//position tile at center of the screen
@@ -65,6 +65,13 @@
 		
 		& > * {
 			pointer-events: auto;
+			
+			//center element
+			margin: auto;
+			top: 0; bottom: 0;
+			left: 0; right: 0;
+			width: fit-content;
+			height: fit-content;
 		}
 	}
 }

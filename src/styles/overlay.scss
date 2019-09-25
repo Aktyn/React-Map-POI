@@ -1,0 +1,15 @@
+@import "global";
+
+.overlay {
+	position: absolute;
+	left: 0;
+	top: 50px;
+	background-color: black;
+	
+	//width: 200px !important;
+	//height: 200px !important;
+	
+	&.is_map_zooming {
+		transition: transform $zoomingTrans;
+	}
+}

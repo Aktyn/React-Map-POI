@@ -5,6 +5,23 @@ import {CameraState, TilePos, convertLatLongToTile, convertXYZToCamera, clamp} f
 
 import '../styles/tiled_map.scss';
 
+interface MapContextInterface extends MapProps {
+	camera: CameraState;
+	centerTile: TilePos;
+	zooming: boolean;
+}
+export const MapContext = React.createContext<MapContextInterface>({
+	width: window.innerWidth,
+	height: window.innerHeight,
+	zooming: false,
+	camera: {
+		latitude: 0,
+		longitude: 0,
+		zoom: 0
+	},
+	centerTile: {x: 0, y: 0}
+});
+
 const OUTER_TILES = [3, 2];
 const GRAB_SAMPLES = 20;
 
@@ -92,7 +109,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	}
 	
 	private updateVelocity(vx: number, vy: number) {
-		if(this.state.grabPos.length || (Math.abs(vx) < 1 && Math.abs(vy) < 1))
+		if(this.state.grabPos.length || this.state.zooming || (Math.abs(vx) < 1 && Math.abs(vy) < 1))
 			return;
 		this.move(vx, vy);
 		
@@ -115,6 +132,14 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			return;
 		if(grabPos[grabPos.length-1].timestamp - grabPos[grabPos.length-2].timestamp > 33)
 			return;
+		
+		//min distance
+		const min_distance = 32;
+		if( Math.pow(grabPos[grabPos.length-1].x - grabPos[0].x, 2) +
+			Math.pow(grabPos[grabPos.length-1].y - grabPos[0].y, 2) < min_distance*min_distance )
+		{
+			return;
+		}
 		
 		//calculate weighted average velocity
 		let vx = 0, vy = 0;
@@ -221,7 +246,16 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			     onMouseMove={e => this.onGrabMove(e.clientX, e.clientY)}
 			     onTouchMove={e => this.onGrabMove(e.touches[0].clientX, e.touches[0].clientY)}
 			     onWheel={e => this.onZoom(-e.deltaY/53/*, e.clientX, e.clientY*/)}>{this.renderLayers()}</div>
-			<div className={'overlays'}>{this.props.children}</div>
+			<div className={'overlays'}>
+				<MapContext.Provider value={{
+					...this.props,
+					camera: this.state.camera,
+					centerTile: this.state.centerTile,
+					zooming: this.state.zooming
+				}}>
+					{this.props.children}
+				</MapContext.Provider>
+			</div>
 		</div>;
 	}
 }
