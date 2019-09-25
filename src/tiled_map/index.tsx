@@ -1,7 +1,7 @@
 import * as React from 'react';
 import UrlGenerator from "./url_generator";
 import Layer, {GridState, TILE_SIZE} from "./layer";
-import {CameraState, TilePos, convertLatLongToTile, convertXYZToLatLong} from "../utils";
+import {CameraState, TilePos, convertLatLongToTile, convertXYZToCamera, clamp} from "../utils";
 
 import '../styles/tiled_map.scss';
 
@@ -14,6 +14,7 @@ interface MapProps {
 
 interface MapState {
 	camera: CameraState;
+	pivotPoint: {x: number, y: number};
 	centerTile: TilePos;
 	grid: GridState;
 	grabPos: {x: number, y: number} | null;
@@ -28,6 +29,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			longitude: 0,
 			zoom: 0
 		},
+		pivotPoint: {x: 0, y: 0},
 		centerTile: {x: 0, y: 0},
 		grid: this.calculateGrid(),
 		
@@ -46,7 +48,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	}
 	
 	componentDidMount() {
-		//TODO: handle scroll and grab events to manipulate camera (assign to layers-container)
+	
 	}
 	
 	componentWillUnmount() {
@@ -95,19 +97,28 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			y: this.state.centerTile.y - (y - this.state.grabPos.y) / TILE_SIZE
 		};
 		
-		let updatedLatLong = convertXYZToLatLong(newCenter, this.state.camera.zoom);
+		let updatedCamera = convertXYZToCamera(newCenter, this.state.camera.zoom);
 		
 		this.setState({
 			centerTile: newCenter,
-			camera: {
-				latitude: updatedLatLong.latitude,
-				longitude: updatedLatLong.longitude,
-				zoom: this.state.camera.zoom
-			}
+			camera: updatedCamera
 		});
 		
 		this.setState({
 			grabPos: {x, y}
+		});
+	}
+	
+	private onZoom(factor: number, zoomX: number, zoomY: number) {
+		this.setState({
+			camera: {
+				...this.state.camera,
+				zoom: clamp(this.state.camera.zoom-factor, 0, 22)
+			},
+			pivotPoint: {
+				x: (zoomX - this.props.width/2) / TILE_SIZE,
+				y: (zoomY - this.props.height/2) / TILE_SIZE
+			}
 		});
 	}
 	
@@ -123,9 +134,9 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			     onTouchEnd={this.onGrabEnd.bind(this)}
 			     onMouseLeave={this.onGrabEnd.bind(this)}
 			     onMouseMove={e => this.onGrabMove(e.clientX, e.clientY)}
-			     onTouchMove={e => this.onGrabMove(e.touches[0].clientX, e.touches[0].clientY)} >
-				<Layer urlGenerator={this.urlGenerator} camera={this.state.camera} centerTile={this.state.centerTile}
-				       grid={this.state.grid} />
+			     onTouchMove={e => this.onGrabMove(e.touches[0].clientX, e.touches[0].clientY)}
+			     onWheel={e => this.onZoom(e.deltaY/53, e.clientX, e.clientY)}>
+				<Layer urlGenerator={this.urlGenerator} {...this.state} />
 			</div>
 			<div className={'overlays'}>{this.props.children}</div>
 		</div>;

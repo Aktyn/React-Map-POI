@@ -24,7 +24,7 @@ export function convertLatLongToTile(camera: CameraState): TilePos {
 }
 
 //Converts
-export function convertXYZToLatLong(tile: TilePos, zoom: number): CameraState {
+export function convertXYZToCamera(tile: TilePos, zoom: number): CameraState {
 	let n = 2 ** zoom;
 	let lon_deg = tile.x / n * 360.0 - 180.0;
 	let lat_rad = Math.atan(Math.sinh(Math.PI * (1 - 2 * tile.y / n)));
