@@ -2,6 +2,7 @@ import * as React from 'react';
 import TiledMap from "./tiled_map";
 
 import './styles/app.scss';
+import './styles/gui.scss';
 
 interface ScreenResolution {
 	screenWidth: number;

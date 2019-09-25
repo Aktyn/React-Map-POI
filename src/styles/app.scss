@@ -1,5 +1,5 @@
 .app {
-	& > .map-container, & > .gui {
+	& > * {
 		position: fixed;
 		left: 0;
 		top: 0;
@@ -7,22 +7,5 @@
 	
 	& > .map-container > .overlays {
 	
-	}
-	
-	& > .gui {
-		pointer-events: none;
-		width: 100vw;
-		height: 100vh;
-		
-		& > * {
-			pointer-events: auto;
-		}
-		
-		& > aside {
-			float: right;
-			background-color: #2f28;
-			height: 100%;
-			padding: 20px;
-		}
 	}
 }

@@ -5,7 +5,8 @@ import {CameraState, TilePos, convertLatLongToTile, convertXYZToCamera, clamp} f
 
 import '../styles/tiled_map.scss';
 
-const OUTER_TILES = 2;
+const OUTER_TILES = [3, 2];
+const GRAB_SAMPLES = 20;
 
 interface MapProps {
 	width: number;
@@ -14,10 +15,11 @@ interface MapProps {
 
 interface MapState {
 	camera: CameraState;
-	pivotPoint: {x: number, y: number};
+	zooming: boolean;
+	//pivotPoint: {x: number, y: number};
 	centerTile: TilePos;
 	grid: GridState;
-	grabPos: {x: number, y: number} | null;
+	grabPos: {x: number, y: number, timestamp: number}[];
 	
 	layers: number[];
 }
@@ -26,6 +28,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	private static layersCounter = 0;
 	
 	private urlGenerator = new UrlGenerator('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+	private zoomingTimeout: number | null = null;
 	
 	state: MapState = {
 		camera: {
@@ -33,11 +36,12 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			longitude: 0,
 			zoom: 0
 		},
-		pivotPoint: {x: 0, y: 0},
+		zooming: false,
+		//pivotPoint: {x: 0, y: 0},
 		centerTile: {x: 0, y: 0},
 		grid: this.calculateGrid(),
 		
-		grabPos: null,
+		grabPos: [],
 		
 		layers: [0]
 	};
@@ -62,8 +66,8 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	}
 	
 	private calculateGrid(): GridState {
-		let tilesX = TiledMap.calculateTiles(this.props.width),
-			tilesY = TiledMap.calculateTiles(this.props.height);
+		let tilesX = Math.ceil(this.props.width / TILE_SIZE) + OUTER_TILES[0],
+			tilesY = Math.ceil(this.props.height / TILE_SIZE) + OUTER_TILES[1];
 		return {
 			tilesX,
 			tilesY,
@@ -72,27 +76,11 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		};
 	}
 	
-	private static calculateTiles(distance: number) {
-		return Math.ceil(distance / TILE_SIZE) + OUTER_TILES;
-	}
-	
-	private onGrabStart(x: number, y: number) {
-		this.setState({
-			grabPos: {x, y}
-		});
-	}
-	
-	private onGrabEnd() {
-		this.setState({grabPos: null});
-	}
-	
-	private onGrabMove(x: number, y: number) {
-		if( !this.state.grabPos )
-			return;
-		
+	private move(deltaX: number, deltaY: number) {//in pixels
+		const maxTile = 2 ** this.state.camera.zoom;
 		let newCenter = {
-			x: this.state.centerTile.x - (x - this.state.grabPos.x) / TILE_SIZE,
-			y: this.state.centerTile.y - (y - this.state.grabPos.y) / TILE_SIZE
+			x: Math.max(0, Math.min(maxTile, this.state.centerTile.x - deltaX / TILE_SIZE)),
+			y: Math.max(0, Math.min(maxTile, this.state.centerTile.y - deltaY / TILE_SIZE))
 		};
 		
 		let updatedCamera = convertXYZToCamera(newCenter, this.state.camera.zoom);
@@ -101,18 +89,82 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			centerTile: newCenter,
 			camera: updatedCamera
 		});
+	}
+	
+	private updateVelocity(vx: number, vy: number) {
+		if(this.state.grabPos.length || (Math.abs(vx) < 1 && Math.abs(vy) < 1))
+			return;
+		this.move(vx, vy);
 		
+		requestAnimationFrame(() => this.updateVelocity(vx*0.9, vy*0.9));
+	}
+	
+	private onGrabStart(x: number, y: number) {
 		this.setState({
-			grabPos: {x, y}
+			grabPos: [{x, y, timestamp: Date.now()}]
 		});
 	}
 	
-	private onZoom(factor: number, zoomX: number, zoomY: number) {
+	private onGrabEnd() {
+		//calculate velocity
+		let grabPos = this.state.grabPos;
+		this.setState({grabPos: []});
+		if (grabPos.length < 5)
+			return;
+		if (grabPos[grabPos.length - 1].timestamp - grabPos[0].timestamp > 200)
+			return;
+		if(grabPos[grabPos.length-1].timestamp - grabPos[grabPos.length-2].timestamp > 33)
+			return;
+		
+		//calculate weighted average velocity
+		let vx = 0, vy = 0;
+		for(let i=grabPos.length-1; i>0; i--) {
+			vx += (grabPos[i].x - grabPos[i-1].x) * i;
+			vy += (grabPos[i].y - grabPos[i-1].y) * i;
+		}
+		let weighs_sum = ((grabPos.length-1)**2 + grabPos.length-1) / 2;//4 + 3 + 2 + 1
+		vx /= weighs_sum * 0.5;
+		vy /= weighs_sum * 0.5;
+		
+		requestAnimationFrame(() => this.updateVelocity(vx, vy));
+	}
+	
+	
+	private onGrabMove(x: number, y: number) {
+		let grabPos = this.state.grabPos;
+		if( !grabPos.length || this.state.zooming )
+			return;
+		
+		this.move(x - grabPos[grabPos.length-1].x, y - grabPos[grabPos.length-1].y);
+		
+		grabPos.push({x, y, timestamp: Date.now()});
+		while(grabPos.length > GRAB_SAMPLES)
+			grabPos.shift();
+		
+		this.setState({grabPos});
+	}
+	
+	private onZoom(factor: number/*, zoomX: number, zoomY: number*/) {
 		factor = clamp(factor, -1, 1);
 		
 		let new_zoom = clamp(this.state.camera.zoom+factor, 0, 19);
 		if(new_zoom === this.state.camera.zoom)
 			return;
+		
+		//new_zoom = this.state.camera.zoom;//temp
+		
+		//zoomX = zoomX - this.props.width/2;
+		//zoomY = zoomY - this.props.height/2;
+		//console.log(zoomX, zoomY);
+		
+		/*let newCenter = {
+			x: this.state.centerTile.x + zoomX / TILE_SIZE,
+			y: this.state.centerTile.y + zoomY / TILE_SIZE
+		};
+		
+		let updatedCamera = convertXYZToCamera(newCenter, this.state.camera.zoom);
+		updatedCamera.zoom = new_zoom;
+		newCenter = convertLatLongToTile(updatedCamera);*/
 		
 		let updatedCamera = {
 			...this.state.camera,
@@ -129,15 +181,24 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		}
 		
 		this.setState({
-			camera: updatedCamera,
 			centerTile: convertLatLongToTile(updatedCamera),
-			pivotPoint: {
+			camera: updatedCamera,
+			/*pivotPoint: {
 				x: (zoomX - this.props.width/2) / TILE_SIZE,
 				y: (zoomY - this.props.height/2) / TILE_SIZE
-			},
-			
+			},*/
+			zooming: true,
 			layers: updatedLayers
 		});
+		
+		if(this.zoomingTimeout)
+			clearTimeout(this.zoomingTimeout);
+		this.zoomingTimeout = setTimeout(() => {
+			this.setState({
+				zooming: false
+			});
+			this.zoomingTimeout = null;
+		}, 400) as never;
 	}
 	
 	private renderLayers() {
@@ -151,7 +212,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			width: `${this.props.width}px`,
 			height: `${this.props.height}px`
 		}}>
-			<div className={`layers-container${this.state.grabPos ? ' grabbed' : ''}`}
+			<div className={`layers-container${this.state.grabPos.length ? ' grabbed' : ''}`}
 			     onMouseDown={e => this.onGrabStart(e.clientX, e.clientY)}
 			     onTouchStart={e => this.onGrabStart(e.touches[0].clientX, e.touches[0].clientY)}
 			     onMouseUp={this.onGrabEnd.bind(this)}
@@ -159,7 +220,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			     onMouseLeave={this.onGrabEnd.bind(this)}
 			     onMouseMove={e => this.onGrabMove(e.clientX, e.clientY)}
 			     onTouchMove={e => this.onGrabMove(e.touches[0].clientX, e.touches[0].clientY)}
-			     onWheel={e => this.onZoom(-e.deltaY/53, e.clientX, e.clientY)}>{this.renderLayers()}</div>
+			     onWheel={e => this.onZoom(-e.deltaY/53/*, e.clientX, e.clientY*/)}>{this.renderLayers()}</div>
 			<div className={'overlays'}>{this.props.children}</div>
 		</div>;
 	}

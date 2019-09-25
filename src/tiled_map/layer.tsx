@@ -27,7 +27,7 @@ interface ViewOffset {
 interface LayerProps {
 	urlGenerator: UrlGenerator;
 	camera: CameraState;
-	pivotPoint: {x: number, y: number};
+	//pivotPoint: {x: number, y: number};
 	centerTile: TilePos;
 	grid: GridState;
 }
@@ -131,19 +131,19 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 	private onZoom(prevProps: Readonly<LayerProps>) {
 		let prev_zoom_diff = 2 ** (prevProps.camera.zoom - this.zoom);
 		
-		this.props.pivotPoint.x = 0;
-		this.props.pivotPoint.y = 0;
+		//this.props.pivotPoint.x = 0;
+		//this.props.pivotPoint.y = 0;
 		
 		this.centerTile.x -= this.state.grabOffset.x/prev_zoom_diff;
 		this.centerTile.y -= this.state.grabOffset.y/prev_zoom_diff;
 		
 		let new_pivot_offset = {
-			x: this.state.pivot_offset.x - this.props.pivotPoint.x + (this.pivotTile.x - this.centerTile.x),
-			y: this.state.pivot_offset.y - this.props.pivotPoint.y + (this.pivotTile.y - this.centerTile.y)
+			x: this.state.pivot_offset.x /*- this.props.pivotPoint.x*/ + (this.pivotTile.x - this.centerTile.x),
+			y: this.state.pivot_offset.y /*- this.props.pivotPoint.y*/ + (this.pivotTile.y - this.centerTile.y)
 		};
 		
-		this.centerTile.x = this.pivotTile.x - this.props.pivotPoint.x;
-		this.centerTile.y = this.pivotTile.y - this.props.pivotPoint.y;
+		this.centerTile.x = this.pivotTile.x;// - this.props.pivotPoint.x;
+		this.centerTile.y = this.pivotTile.y;// - this.props.pivotPoint.y;
 		
 		//console.log( this.calculateOffset() );//should be 0, 0
 		
@@ -270,8 +270,8 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 		return <img style={{
 			height: `${TILE_SIZE+1}px`,
 			width: `${TILE_SIZE+1}px`,
-			imageRendering: this.state.zoomed ? 'auto' : 'pixelated',
-			transform: `translate(${offX}px, ${offY}px)`// scale(${this.state.zoomed ? 1 : 0.9})
+			imageRendering: this.state.zoomed ? 'auto' : 'pixelated',//pixelated, crisp-edges
+			transform: `translate(${offX}px, ${offY}px)`
 		}} key={tile.id} src={url}
 		    alt={'tile'} role={'presentation'} onLoad={e =>
 			{

@@ -1,0 +1,16 @@
+.gui {
+	pointer-events: none;
+	width: 100vw;
+	height: 100vh;
+	
+	& > * {
+		pointer-events: auto;
+	}
+	
+	& > aside {
+		float: right;
+		background-color: #2F28;
+		height: 100%;
+		padding: 20px;
+	}
+}
