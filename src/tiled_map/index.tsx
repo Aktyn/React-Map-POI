@@ -18,9 +18,13 @@ interface MapState {
 	centerTile: TilePos;
 	grid: GridState;
 	grabPos: {x: number, y: number} | null;
+	
+	layers: number[];
 }
 
 export default class TiledMap extends React.Component<MapProps, MapState> {
+	private static layersCounter = 0;
+	
 	private urlGenerator = new UrlGenerator('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 	
 	state: MapState = {
@@ -33,26 +37,20 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		centerTile: {x: 0, y: 0},
 		grid: this.calculateGrid(),
 		
-		grabPos: null
+		grabPos: null,
+		
+		layers: [0]
 	};
 	
 	constructor(props: MapProps) {
 		super(props);
 		
 		this.state.camera = {
-			latitude: 51.7769406,
-			longitude: 19.4279159,
-			zoom: 18
+			latitude: 51.4764211,
+			longitude: 21.3709875,
+			zoom: 14//18
 		};
 		this.state.centerTile = convertLatLongToTile(this.state.camera);
-	}
-	
-	componentDidMount() {
-	
-	}
-	
-	componentWillUnmount() {
-	
 	}
 	
 	componentDidUpdate(prevProps: Readonly<MapProps>) {
@@ -110,15 +108,41 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	}
 	
 	private onZoom(factor: number, zoomX: number, zoomY: number) {
+		factor = clamp(factor, -1, 1);
+		
+		let new_zoom = clamp(this.state.camera.zoom+factor, 0, 19);
+		if(new_zoom === this.state.camera.zoom)
+			return;
+		
+		let updatedCamera = {
+			...this.state.camera,
+			zoom: new_zoom
+		};
+		
+		let updatedLayers = this.state.layers.concat( ++TiledMap.layersCounter );
+		if(updatedLayers.length > 2) {
+			setTimeout(() => {
+				let layers = this.state.layers;
+				layers.splice(0, 1);
+				this.setState({layers});
+			}, 1000);
+		}
+		
 		this.setState({
-			camera: {
-				...this.state.camera,
-				zoom: clamp(this.state.camera.zoom-factor, 0, 22)
-			},
+			camera: updatedCamera,
+			centerTile: convertLatLongToTile(updatedCamera),
 			pivotPoint: {
 				x: (zoomX - this.props.width/2) / TILE_SIZE,
 				y: (zoomY - this.props.height/2) / TILE_SIZE
-			}
+			},
+			
+			layers: updatedLayers
+		});
+	}
+	
+	private renderLayers() {
+		return this.state.layers.map(layer_index => {
+			return <Layer key={layer_index} urlGenerator={this.urlGenerator} {...this.state} />;
 		});
 	}
 	
@@ -135,9 +159,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			     onMouseLeave={this.onGrabEnd.bind(this)}
 			     onMouseMove={e => this.onGrabMove(e.clientX, e.clientY)}
 			     onTouchMove={e => this.onGrabMove(e.touches[0].clientX, e.touches[0].clientY)}
-			     onWheel={e => this.onZoom(e.deltaY/53, e.clientX, e.clientY)}>
-				<Layer urlGenerator={this.urlGenerator} {...this.state} />
-			</div>
+			     onWheel={e => this.onZoom(-e.deltaY/53, e.clientX, e.clientY)}>{this.renderLayers()}</div>
 			<div className={'overlays'}>{this.props.children}</div>
 		</div>;
 	}

@@ -75,12 +75,12 @@ export default class UrlGenerator {
 	}
 	
 	public generate(tile_x: number, tile_y: number, zoom = 13, subdomain = this.nextSubdomain()) {
-		//TODO: limit tile_x and tile_y
+		const maxI = 2 ** zoom;
 		
 		return this.concatenateUrl({
 			subdomain: subdomain,
-			x: tile_x|0,
-			y: tile_y|0,
+			x: (((tile_x|0)%maxI)+maxI)%maxI,
+			y: (((tile_y|0)%maxI)+maxI)%maxI,
 			z: zoom
 		});
 	}

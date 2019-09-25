@@ -42,6 +42,7 @@ export default class App extends React.Component<any, AppState> {
 	}
 	
 	render() {
+		//TODO: zoom buttons
 		return <main className={'app'}>
 			<TiledMap width={this.state.screenWidth} height={this.state.screenHeight}>
 				<div style={{

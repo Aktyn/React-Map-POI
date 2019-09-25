@@ -35,12 +35,14 @@ interface LayerProps {
 interface LayerState extends ViewOffset {
 	tiles: Tile[][];//rows and columns
 	pivot_offset: {x: number, y: number};
+	grabOffset: {x: number, y: number};
 	zoomed: boolean;
 }
 
 export default class Layer extends React.Component<LayerProps, LayerState> {
 	private readonly pivotTile: TilePos = {...this.props.centerTile};//copy;
 	private readonly zoom = this.props.camera.zoom;
+	private lockedCenterTile: TilePos | null = null;
 	
 	private bounds = {
 		left: 0,
@@ -56,6 +58,7 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 			x: Math.floor(this.pivotTile.x) - this.pivotTile.x + 0.5,
 			y: Math.floor(this.pivotTile.y) - this.pivotTile.y + 0.5
 		},
+		grabOffset: {x: 0, y: 0},
 		zoomed: false
 	};
 	
@@ -63,8 +66,12 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 		super(props);
 	}
 	
-	public get zoom_diff() {
+	private get zoom_diff() {
 		return 2 ** (this.props.camera.zoom - this.zoom);
+	}
+	
+	private get centerTile() {
+		return this.lockedCenterTile || this.props.centerTile;
 	}
 	
 	componentDidMount() {
@@ -73,7 +80,14 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 		this.recalculateGrid();
 	}
 	
-	componentDidUpdate(prevProps: Readonly<LayerProps>): void {
+	shouldComponentUpdate(nextProps: Readonly<LayerProps>, nextState: Readonly<LayerState>) {
+		if(nextProps.camera.zoom !== this.props.camera.zoom && !this.lockedCenterTile)
+			this.lockedCenterTile = {...this.props.centerTile};
+		
+		return true;
+	}
+	
+	componentDidUpdate(prevProps: Readonly<LayerProps>) {
 		if(prevProps.grid.tilesY !== this.props.grid.tilesY || prevProps.grid.tilesX !== this.props.grid.tilesX) {
 			this.recalculateGrid();
 		}
@@ -81,62 +95,76 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 		if(prevProps.camera.zoom !== this.props.camera.zoom) {
 			this.onZoom(prevProps);
 		}
-		
-		if(prevProps.centerTile.x !== this.props.centerTile.x ||
+		else if(prevProps.centerTile.x !== this.props.centerTile.x ||
 			prevProps.centerTile.y !== this.props.centerTile.y)
 		{
 			if( (prevProps.centerTile.x|0) !== (this.props.centerTile.x|0) ||
 				(prevProps.centerTile.y|0) !== (this.props.centerTile.y|0) )
-			{//TODO: recalculate new pivot point and center tile
+			{
 				this.recalculateGrid();
 			}
 			
 			this.onCameraMove();
+			
+			if(this.lockedCenterTile) {
+				let grabOffset = this.state.grabOffset;
+				grabOffset.x += prevProps.centerTile.x - this.props.centerTile.x;
+				grabOffset.y += prevProps.centerTile.y - this.props.centerTile.y;
+				this.setState({grabOffset});
+			}
 		}
 	}
 	
 	private calculateOffset(): ViewOffset {
 		return {
-			offsetX: TILE_SIZE * (this.pivotTile.x - this.props.centerTile.x),
-			offsetY: TILE_SIZE * (this.pivotTile.y - this.props.centerTile.y)
+			offsetX: TILE_SIZE * (this.pivotTile.x - this.centerTile.x),
+			offsetY: TILE_SIZE * (this.pivotTile.y - this.centerTile.y)
 		};
 	}
 	
 	private onCameraMove() {
 		this.setState({
-			...this.calculateOffset()
+			...this.calculateOffset(),
 		});
 	}
 	
 	private onZoom(prevProps: Readonly<LayerProps>) {
-		//console.log('zoomed', this.props.pivotPoint, this.pivotTile, this.zoom_diff);
-		
 		let prev_zoom_diff = 2 ** (prevProps.camera.zoom - this.zoom);
-		let cx = (this.pivotTile.x - this.props.centerTile.x);
-		let cy = (this.pivotTile.y - this.props.centerTile.y);
-		this.props.pivotPoint.x = cx + (this.props.pivotPoint.x-cx) / prev_zoom_diff;
-		this.props.pivotPoint.y = cy + (this.props.pivotPoint.y-cy) / prev_zoom_diff;
+		
+		this.props.pivotPoint.x = 0;
+		this.props.pivotPoint.y = 0;
+		
+		this.centerTile.x -= this.state.grabOffset.x/prev_zoom_diff;
+		this.centerTile.y -= this.state.grabOffset.y/prev_zoom_diff;
 		
 		let new_pivot_offset = {
-			x: this.state.pivot_offset.x - this.props.pivotPoint.x + (this.pivotTile.x - this.props.centerTile.x),
-			y: this.state.pivot_offset.y - this.props.pivotPoint.y + (this.pivotTile.y - this.props.centerTile.y)
+			x: this.state.pivot_offset.x - this.props.pivotPoint.x + (this.pivotTile.x - this.centerTile.x),
+			y: this.state.pivot_offset.y - this.props.pivotPoint.y + (this.pivotTile.y - this.centerTile.y)
 		};
 		
-		this.props.centerTile.x = this.pivotTile.x - this.props.pivotPoint.x;
-		this.props.centerTile.y = this.pivotTile.y - this.props.pivotPoint.y;
+		this.centerTile.x = this.pivotTile.x - this.props.pivotPoint.x;
+		this.centerTile.y = this.pivotTile.y - this.props.pivotPoint.y;
 		
 		//console.log( this.calculateOffset() );//should be 0, 0
 		
 		this.setState({
 			...this.calculateOffset(),
+			grabOffset: {x: 0, y: 0},
 			pivot_offset: new_pivot_offset,
 			zoomed: true
 		});
 	}
 	
+	private get totalTiles() {
+		return (this.bounds.right-this.bounds.left)*(this.bounds.top-this.bounds.bottom);
+	}
+	
 	private recalculateGrid() {
-		if( this.zoom_diff !== 1 )//do not change tiles on zoomed layer
+		if( this.state.zoomed )//do not change tiles on zoomed layer
 			return;
+		
+		//if(this.state.tiles.length > 64)
+		//	return;
 		
 		// noinspection JSUnusedAssignment
 		let modified = false;
@@ -145,19 +173,19 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 		const tileDeltaY = Math.round(this.props.centerTile.y - this.pivotTile.y);
 		
 		let minLeft = tileDeltaX - Math.floor(this.props.grid.tilesX/2);
-		while(minLeft < this.bounds.left && (modified = true))
+		while(minLeft < this.bounds.left && (modified = true) && this.totalTiles < 16*16)
 			this.expandGrid(SIDE.LEFT, this.state.tiles);
 		
 		let minRight = tileDeltaX + Math.floor(this.props.grid.tilesX/2);
-		while(minRight > this.bounds.right && (modified = true))
+		while(minRight > this.bounds.right && (modified = true) && this.totalTiles < 16*16)
 			this.expandGrid(SIDE.RIGHT, this.state.tiles);
 		
 		let minTop = tileDeltaY + Math.floor(this.props.grid.tilesY/2);
-		while(minTop > this.bounds.top && (modified = true))
+		while(minTop > this.bounds.top && (modified = true) && this.totalTiles < 16*16)
 			this.expandGrid(SIDE.TOP, this.state.tiles);
 		
 		let minBottom = tileDeltaY - Math.floor(this.props.grid.tilesY/2);
-		while(minBottom < this.bounds.bottom && (modified = true))
+		while(minBottom < this.bounds.bottom && (modified = true) && this.totalTiles < 16*16)
 			this.expandGrid(SIDE.BOTTOM, this.state.tiles);
 		
 		///////////////////////////////////////////////////////////
@@ -242,22 +270,23 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 		return <img style={{
 			height: `${TILE_SIZE+1}px`,
 			width: `${TILE_SIZE+1}px`,
-			imageRendering: 'pixelated',
-			transform: `translate(${offX}px, ${offY}px) scale(${this.state.zoomed ? 1 : 0.9})`
+			imageRendering: this.state.zoomed ? 'auto' : 'pixelated',
+			transform: `translate(${offX}px, ${offY}px)`// scale(${this.state.zoomed ? 1 : 0.9})
 		}} key={tile.id} src={url}
 		    alt={'tile'} role={'presentation'} onLoad={e =>
 			{
 				if(this.state.zoomed)
 					return;
 				let style = (e.target as HTMLImageElement).style;
-				style.transform = `translate(${offX}px, ${offY}px) scale(1)`;
+				//style.transform = `translate(${offX}px, ${offY}px) scale(1)`;
 				style.opacity = '1';
 		    }} />;
 	}
 	
 	render() {
 		return <div className={'layer'} style={{
-			transform: `translate(${this.state.offsetX}px, ${this.state.offsetY}px)`
+			transform: `translate(${this.state.offsetX + this.state.grabOffset.x*TILE_SIZE}px, ${
+				this.state.offsetY + this.state.grabOffset.y*TILE_SIZE}px)`
 		}}>
 			<div className={`tiles-grid${this.state.zoomed ? ' zoomed' : ''}`} style={{
 				transform: `scale(${this.zoom_diff})`,
