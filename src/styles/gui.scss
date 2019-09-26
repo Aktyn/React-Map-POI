@@ -67,7 +67,10 @@
 		}
 		
 		& > .position-info {
-		
+			display: table;
+			white-space: pre-wrap;
+			width: min-content;
+			text-align: left;
 		}
 	}
 	

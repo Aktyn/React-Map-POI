@@ -1,42 +1,39 @@
 import * as React from 'react';
 import UrlGenerator from "./url_generator";
 import Layer, {GridState, TILE_SIZE} from "./layer";
-import {CameraState, TilePos, convertLatLongToTile, convertXYZToCamera, clamp, noop} from "../utils";
+import {CameraState, TilePos, convertLatLongToTile, convertXYZToCamera, clamp} from "../utils";
 
 import '../styles/tiled_map.scss';
 
-interface MapContextInterface extends MapProps {
+export interface MapSharedState {
 	camera: CameraState;
-	centerTile: TilePos;
 	zooming: boolean;
-	zoom(factor: number): void;
+	centerTile: TilePos;
 }
-export const MapContext = React.createContext<MapContextInterface>({
-	width: window.innerWidth,
-	height: window.innerHeight,
+
+const startCamera = {
+	latitude: 51.4764211,
+	longitude: 21.3709875,
+	zoom: 14
+};
+
+export const defaultSharedState = {
+	camera: startCamera,
+	centerTile: convertLatLongToTile(startCamera),
 	zooming: false,
-	camera: {
-		latitude: 0,
-		longitude: 0,
-		zoom: 0
-	},
-	centerTile: {x: 0, y: 0},
-	zoom: noop
-});
+};
 
 const OUTER_TILES = [3, 2];
 const GRAB_SAMPLES = 20;
 
+
 interface MapProps {
 	width: number;
 	height: number;
+	onUpdate?: (sharedState: MapSharedState) => void;
 }
 
-interface MapState {
-	camera: CameraState;
-	zooming: boolean;
-	//pivotPoint: {x: number, y: number};
-	centerTile: TilePos;
+interface MapState extends MapSharedState {
 	grid: GridState;
 	grabPos: {x: number, y: number, timestamp: number}[];
 	
@@ -50,14 +47,8 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	private zoomingTimeout: number | null = null;
 	
 	state: MapState = {
-		camera: {
-			latitude: 0,
-			longitude: 0,
-			zoom: 0
-		},
-		zooming: false,
-		//pivotPoint: {x: 0, y: 0},
-		centerTile: {x: 0, y: 0},
+		...defaultSharedState,
+
 		grid: this.calculateGrid(),
 		
 		grabPos: [],
@@ -67,19 +58,29 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	
 	constructor(props: MapProps) {
 		super(props);
-		
-		this.state.camera = {
-			latitude: 51.4764211,
-			longitude: 21.3709875,
-			zoom: 14//18
-		};
-		this.state.centerTile = convertLatLongToTile(this.state.camera);
 	}
 	
-	componentDidUpdate(prevProps: Readonly<MapProps>) {
+	componentDidMount() {
+		this.setState({//force parent to refresh shared state
+			camera: {...startCamera}
+		});
+	}
+	
+	componentDidUpdate(prevProps: Readonly<MapProps>, prevState: Readonly<MapState>) {
 		if(prevProps.width !== this.props.width || prevProps.height !== this.props.height) {
 			this.setState({
 				grid: this.calculateGrid()
+			});
+		}
+		if(this.props.onUpdate && (
+			prevState.camera !== this.state.camera ||
+			prevState.centerTile !== this.state.centerTile ||
+			prevState.zooming !== this.state.zooming) )
+		{
+			this.props.onUpdate({
+				camera: this.state.camera,
+				centerTile: this.state.centerTile,
+				zooming: this.state.zooming
 			});
 		}
 	}
@@ -132,7 +133,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			return;
 		if (grabPos[grabPos.length - 1].timestamp - grabPos[0].timestamp > 200)
 			return;
-		if(grabPos[grabPos.length-1].timestamp - grabPos[grabPos.length-2].timestamp > 33)
+		if(grabPos[grabPos.length-1].timestamp - grabPos[grabPos.length-2].timestamp > 16)
 			return;
 		
 		//min distance
@@ -171,11 +172,11 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		this.setState({grabPos});
 	}
 	
-	private onZoom(factor: number/*, zoomX: number, zoomY: number*/) {
+	public zoom(factor: number, force = false) {
 		factor = clamp(factor, -1, 1);
 		
 		let new_zoom = clamp(this.state.camera.zoom+factor, 0, 19);
-		if(new_zoom === this.state.camera.zoom || this.state.zooming)
+		if( (new_zoom === this.state.camera.zoom || this.state.zooming) && !force )
 			return;
 		
 		//new_zoom = this.state.camera.zoom;//temp
@@ -247,18 +248,8 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			     onMouseLeave={this.onGrabEnd.bind(this)}
 			     onMouseMove={e => this.onGrabMove(e.clientX, e.clientY)}
 			     onTouchMove={e => this.onGrabMove(e.touches[0].clientX, e.touches[0].clientY)}
-			     onWheel={e => this.onZoom(-e.deltaY/53/*, e.clientX, e.clientY*/)}>{this.renderLayers()}</div>
-			<div className={'overlays'}>
-				<MapContext.Provider value={{
-					...this.props,
-					camera: this.state.camera,
-					centerTile: this.state.centerTile,
-					zooming: this.state.zooming,
-					zoom: factor => console.log(factor)
-				}}>
-					{this.props.children}
-				</MapContext.Provider>
-			</div>
+			     onWheel={e => this.zoom(-e.deltaY/53/*, e.clientX, e.clientY*/)}>{this.renderLayers()}</div>
+			<div className={'overlays'}>{this.props.children}</div>
 		</div>;
 	}
 }
