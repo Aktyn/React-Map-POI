@@ -26,6 +26,10 @@ html, body {
 	font-size: 13px;
 	font-family: RobotoRegular, Arial, serif;
 	
-	color: #fff;
+	color: nth($blueGrey, 8);
 	background-color: nth($blueGrey, 3);
+}
+
+button {
+	cursor: pointer;
 }

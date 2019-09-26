@@ -1,7 +1,7 @@
 import * as React from 'react';
 import UrlGenerator from "./url_generator";
 import Layer, {GridState, TILE_SIZE} from "./layer";
-import {CameraState, TilePos, convertLatLongToTile, convertXYZToCamera, clamp} from "../utils";
+import {CameraState, TilePos, convertLatLongToTile, convertXYZToCamera, clamp, noop} from "../utils";
 
 import '../styles/tiled_map.scss';
 
@@ -9,6 +9,7 @@ interface MapContextInterface extends MapProps {
 	camera: CameraState;
 	centerTile: TilePos;
 	zooming: boolean;
+	zoom(factor: number): void;
 }
 export const MapContext = React.createContext<MapContextInterface>({
 	width: window.innerWidth,
@@ -19,7 +20,8 @@ export const MapContext = React.createContext<MapContextInterface>({
 		longitude: 0,
 		zoom: 0
 	},
-	centerTile: {x: 0, y: 0}
+	centerTile: {x: 0, y: 0},
+	zoom: noop
 });
 
 const OUTER_TILES = [3, 2];
@@ -173,7 +175,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		factor = clamp(factor, -1, 1);
 		
 		let new_zoom = clamp(this.state.camera.zoom+factor, 0, 19);
-		if(new_zoom === this.state.camera.zoom)
+		if(new_zoom === this.state.camera.zoom || this.state.zooming)
 			return;
 		
 		//new_zoom = this.state.camera.zoom;//temp
@@ -251,7 +253,8 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 					...this.props,
 					camera: this.state.camera,
 					centerTile: this.state.centerTile,
-					zooming: this.state.zooming
+					zooming: this.state.zooming,
+					zoom: factor => console.log(factor)
 				}}>
 					{this.props.children}
 				</MapContext.Provider>
