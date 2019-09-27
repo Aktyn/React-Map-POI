@@ -12,12 +12,14 @@ const distance_threshold = 48;//pixels
 interface GridState {
 	data: ObjectSchema;
 	markers: MarkerData[];
-	fading: boolean;
+	locked: boolean;
 }
 
 export default class Grid extends React.Component<any, GridState> {
 	private readonly dataLoadListener = this.onDataLoaded.bind(this);
-	private finalizeTm: NodeJS.Timeout | null = null;
+	
+	private dtx = 0;
+	private dty = 0;
 	
 	private fromContext: {
 		overlaysCenter: TilePos;
@@ -27,7 +29,7 @@ export default class Grid extends React.Component<any, GridState> {
 	state: GridState = {
 		data: [],
 		markers: [],
-		fading: false
+		locked: false
 	};
 	
 	componentDidMount() {
@@ -36,6 +38,12 @@ export default class Grid extends React.Component<any, GridState> {
 	
 	componentWillUnmount() {
 		MapObjects.off(EVENT.LOAD, this.dataLoadListener);
+	}
+	
+	componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<GridState>) {
+		if(this.state.locked && !prevState.locked) {
+			this.preprocessData(this.state.data);
+		}
 	}
 	
 	private onDataLoaded(data: ObjectSchema) {
@@ -76,8 +84,6 @@ export default class Grid extends React.Component<any, GridState> {
 		if( !this.fromContext )
 			return;
 		
-		this.setState({fading: true});
-		
 		//calculate positions for markers
 		let markers: MarkerData[] = [];
 		
@@ -107,16 +113,21 @@ export default class Grid extends React.Component<any, GridState> {
 		
 		let grouped = Grid.groupMarkers(markers);
 		
-		//make sure to update state outside render function
-		if(this.finalizeTm)
-			clearTimeout(this.finalizeTm);
-		this.finalizeTm = setTimeout(() => {
-			this.setState({
-				markers: grouped,
-				fading: false
-			});
-			this.finalizeTm = null;
-		}, 500) as never;
+		this.setState({
+			markers: grouped,
+			locked: false
+		});
+	}
+	
+	private centerGrid(offsetX: number, offsetY: number) {
+		let markers = this.state.markers;
+		
+		for(let marker of markers) {
+			marker.relativePos.x += offsetX;
+			marker.relativePos.y += offsetY;
+		}
+		
+		return markers;
 	}
 	
 	private renderMarkers() {
@@ -131,27 +142,38 @@ export default class Grid extends React.Component<any, GridState> {
 	
 	render() {
 		return <MapSharedContext.Consumer>{(context) => {
+			let locked = this.state.locked;
 			if( !this.fromContext || (this.fromContext.camera_zoom !== context.camera.zoom) )
 			{
 				let noContext = !this.fromContext;
+				
 				this.fromContext = {
 					overlaysCenter: {...context.centerTile},//make sure not to create new object
 					camera_zoom: context.camera.zoom
 				};
 				
+				let dtx = this.dtx;
+				let dty = this.dty;
 				if(this.state.data.length) {
-					setTimeout(() => this.preprocessData(this.state.data));
+					//this.state.locked = true;
+					locked = true;
+					let centered_markers = this.centerGrid(dtx, dty);
+					setTimeout(() => {
+						this.setState({
+							markers: centered_markers,
+							locked: true
+						});
+					});
 				}
 				
 				if(noContext)
 					return 'Awaiting map context';
 			}
-			let fading = context.zooming || this.state.fading;
 			
-			let dtx = Math.floor( (this.fromContext.overlaysCenter.x - context.centerTile.x) * TILE_SIZE );
-			let dty = Math.floor( (this.fromContext.overlaysCenter.y - context.centerTile.y) * TILE_SIZE );
-			return <div className={`overlays-grid${fading ? ' fading' : ''}`} style={{
-				transform: `translate(${dtx}px, ${dty}px)`
+			this.dtx = Math.floor( (this.fromContext.overlaysCenter.x - context.centerTile.x) * TILE_SIZE );
+			this.dty = Math.floor( (this.fromContext.overlaysCenter.y - context.centerTile.y) * TILE_SIZE );
+			return <div className={`overlays-grid${!locked ? ' zooming' : ''}`} style={{
+				transform: `translate(${this.dtx}px, ${this.dty}px)`
 			}}>{this.renderMarkers()}</div>;
 		}}</MapSharedContext.Consumer>;
 	}
