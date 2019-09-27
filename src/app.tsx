@@ -3,9 +3,9 @@ import TiledMap, {defaultSharedState, MapSharedState} from "./tiled_map";
 import Overlay from "./components/overlay";
 import GUI from "./gui";
 import {noop} from "./utils";
+import CONFIG, {TileProviderData} from "./config";
 
 import './styles/app.scss';
-import CONFIG, {TileProviderData} from "./config";
 
 interface MapSharedContextInterface extends MapSharedState {
 	zoom(factor: number, force?: boolean): void;

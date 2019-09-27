@@ -49,16 +49,8 @@
 			& > * {
 				width: $zoomBtnSize;
 				height: $zoomBtnSize;
-				
-				background: center no-repeat;
-				background-size: contain;
-				
-				&.zoom-out {
-					background-image: url("../../img/icons/minus_dark.svg");
-				}
-				&.zoom-in {
-					background-image: url("../../img/icons/plus_dark.svg");
-				}
+				color: nth($blueGrey, 10);
+				font-weight: normal;
 			}
 		}
 		
@@ -88,12 +80,13 @@
 			padding-left: 15px;
 			position: relative;
 			
-			& > img {//arrow icon
+			& > svg {//arrow icon
+				color: nth($blueGrey, 10);
 				opacity: 0.66;
 				transition: $hoverIconBtnTrans;
 				margin-left: 5px;
 			}
-			&:hover > img {
+			&:hover > svg {
 				opacity: 1;
 			}
 		}
@@ -150,13 +143,19 @@
 				height: $appearanceOptionsNavSize;
 				line-height: $appearanceOptionsNavSize;
 				background-color: nth($blueGrey, 8);
-				.closer {
+				
+				button {
+					font-weight: normal;
+					color: nth($blueGrey, 1);
+					padding-right: 5px;
+				}
+				/*.closer {
 					width: $appearanceOptionsNavSize * 0.8;
 					height: $appearanceOptionsNavSize * 0.8;
 					margin: auto $appearanceOptionsNavSize * 0.2 auto auto;
 					background: url("../../img/icons/close.svg") center no-repeat;
 					background-size: contain;
-				}
+				}*/
 			}
 		}
 		

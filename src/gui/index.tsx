@@ -4,7 +4,7 @@ import AppearanceOptions from "./appearance_options";
 
 import '../styles/gui/gui.scss';
 
-const settings_icon = require('../img/icons/settings_dark.svg');
+// const settings_icon = require('../img/icons/settings_dark.svg');
 
 function padZero(val: number) {
 	return val < 10 ? '0' + val : val.toString();
@@ -48,12 +48,12 @@ export default class GUI extends React.Component<any, GUIState> {
 			return <div className={'gui'}>
 				<div className={'left-panel'}>
 					<div className={'zoom-buttons'}>
-						<button className={'clean hover-icon zoom-out'} onClick={
+						<button className={'clean hover-icon'} onClick={
 							() => context.zoom(-1, true)
-						} />
+						}><i className="fas fa-minus"/></button>
 						<button className={'clean hover-icon zoom-in'} onClick={
 							() => context.zoom(1, true)
-						} />
+						}><i className="fas fa-plus"/></button>
 					</div>
 					<div className={'zoom-info'}>{context.camera.zoom}</div>
 					<div className={'position-info'}>{
@@ -63,7 +63,8 @@ export default class GUI extends React.Component<any, GUIState> {
 					<div className={'appearance-opener shaky-icon'} onClick={e => {
 						this.openAppearanceOptions(e.clientX, e.clientY);
 					}}>
-						<span>Appearance</span> <img src={settings_icon} alt={'settings icon'} />
+						<span>Appearance</span> <i className="fas fa-cog"/>
+						{/*<img src={settings_icon} alt={'settings icon'} />*/}
 					</div>
 				</div>
 				<div className={`appearance-container${this.state.appearanceBubble ? ' open': ''}`}>
@@ -74,9 +75,9 @@ export default class GUI extends React.Component<any, GUIState> {
 						} : {display: 'initial'}
 					}/>}
 					<div className={'content'}>
-						<nav><button className={'clean shaky-icon hover-icon closer'} onClick={() => {
+						<nav><button className={'clean shaky-icon hover-icon'} onClick={() => {
 							this.setState({appearanceBubble: null})
-						}} /></nav>
+						}}><i className="fas fa-times"/></button></nav>
 						<AppearanceOptions />
 					</div>
 				</div>
