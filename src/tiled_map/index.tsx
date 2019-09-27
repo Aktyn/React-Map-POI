@@ -2,6 +2,8 @@ import * as React from 'react';
 import UrlGenerator from "./url_generator";
 import Layer, {GridState, TILE_SIZE} from "./layer";
 import {CameraState, TilePos, convertLatLongToTile, convertXYZToCamera, clamp} from "../utils";
+import { MapSharedContext } from '../app';
+import {ProviderDefaults, TileProviderData} from "../config";
 
 import '../styles/tiled_map.scss';
 
@@ -43,7 +45,9 @@ interface MapState extends MapSharedState {
 export default class TiledMap extends React.Component<MapProps, MapState> {
 	private static layersCounter = 0;
 	
-	private urlGenerator = new UrlGenerator('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+	private urlGenerator: UrlGenerator | null = null;
+	private tileProvider: TileProviderData | null = null;
+	// = new UrlGenerator('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 	private zoomingTimeout: number | null = null;
 	
 	state: MapState = {
@@ -133,7 +137,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			return;
 		if (grabPos[grabPos.length - 1].timestamp - grabPos[0].timestamp > 200)
 			return;
-		if(grabPos[grabPos.length-1].timestamp - grabPos[grabPos.length-2].timestamp > 16)
+		if(grabPos[grabPos.length-1].timestamp - grabPos[grabPos.length-2].timestamp > 32)
 			return;
 		
 		//min distance
@@ -175,7 +179,12 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	public zoom(factor: number, force = false) {
 		factor = clamp(factor, -1, 1);
 		
-		let new_zoom = clamp(this.state.camera.zoom+factor, 0, 19);
+		if(!this.tileProvider)
+			return;
+		
+		let new_zoom = clamp(this.state.camera.zoom+factor,
+			this.tileProvider.minZoom || ProviderDefaults.minZoom,
+			this.tileProvider.maxZoom || ProviderDefaults.maxZoom);
 		if( (new_zoom === this.state.camera.zoom || this.state.zooming) && !force )
 			return;
 		
@@ -230,9 +239,20 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	}
 	
 	private renderLayers() {
-		return this.state.layers.map(layer_index => {
-			return <Layer key={layer_index} urlGenerator={this.urlGenerator} {...this.state} />;
-		});
+		return <MapSharedContext.Consumer>{(context) => {
+			this.tileProvider = context.tileProvider;
+			let generator = this.urlGenerator ||
+				(this.urlGenerator = new UrlGenerator(
+					context.tileProvider.template_url, context.tileProvider.subdomains));
+			if(generator.template !== context.tileProvider.template_url) {//provider changed
+				generator = this.urlGenerator = new UrlGenerator(
+					context.tileProvider.template_url, context.tileProvider.subdomains);
+			}
+			//TODO: fix problem with different min / max zoom values
+			return this.state.layers.map(layer_index => {
+				return <Layer key={layer_index} urlGenerator={generator} {...this.state} />;
+			});
+		}}</MapSharedContext.Consumer>;
 	}
 	
 	render() {
@@ -248,7 +268,9 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 			     onMouseLeave={this.onGrabEnd.bind(this)}
 			     onMouseMove={e => this.onGrabMove(e.clientX, e.clientY)}
 			     onTouchMove={e => this.onGrabMove(e.touches[0].clientX, e.touches[0].clientY)}
-			     onWheel={e => this.zoom(-e.deltaY/53/*, e.clientX, e.clientY*/)}>{this.renderLayers()}</div>
+			     onWheel={e => this.zoom(-e.deltaY/53/*, e.clientX, e.clientY*/)}>{
+			     	this.renderLayers()
+			     }</div>
 			<div className={'overlays'}>{this.props.children}</div>
 		</div>;
 	}

@@ -1,7 +1,28 @@
+@import "global";
+
 .clean {
 	outline: none;
 	border: none;
 	background-color: transparent;
 	padding: 0;
 	margin: 0;
+}
+
+@keyframes shk-rot {
+	10%, 90% { transform: rotate(-2deg); }
+	20%, 80% { transform: rotate(4deg); }
+	30%, 50%, 70% { transform: rotate(-8deg); }
+	40%, 60% { transform: rotate(8deg); }
+}
+
+.shaky-icon:hover, .shaky-icon:hover > img {
+	animation: shk-rot 0.82s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.hover-icon {
+	opacity: 0.66;
+	transition: $hoverIconBtnTrans;
+	&:hover {
+		opacity: 1;
+	}
 }

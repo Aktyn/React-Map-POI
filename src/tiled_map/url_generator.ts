@@ -1,13 +1,15 @@
-export const subdomains = ['a', 'b', 'c'];
+import {ProviderDefaults} from "../config";
 
-function strEnum<T extends string>(o: Array<T>): { [K in T]: string } {
+//export const subdomains = ['a', 'b', 'c'];
+
+/*function strEnum<T extends string>(o: Array<T>): { [K in T]: string } {
 	return o.reduce((res, key) => {
 		res[key] = key;
 		return res;
 	}, Object.create(null));
 }
 
-const domainKeys = strEnum(subdomains);
+const domainKeys = strEnum(subdomains);*/
 
 const enum URL_ARGS {
 	SUBDOMAIN = '{s}',
@@ -17,7 +19,7 @@ const enum URL_ARGS {
 }
 
 interface TemplateArguments {
-	subdomain: keyof typeof domainKeys;
+	subdomain: string;//keyof typeof domainKeys;
 	x: number;
 	y: number;
 	z: number;
@@ -29,8 +31,17 @@ export default class UrlGenerator {
 	private subdomain_index = 0;//0 -> 3
 	
 	private readonly concatenateUrl: TemplateFunc;
+	public readonly template: string;
+	public readonly subdomains: string[];
 	
-	constructor(template: string) {//eg: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+	//eg template: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+	constructor(template: string, subdomains: string | string[] = ProviderDefaults.subdomains) {
+		if( Array.isArray(subdomains) )
+			this.subdomains = subdomains;
+		else
+			this.subdomains = [...subdomains];
+		
+		this.template = template;
 		let url_args = template.match(/{[a-z]+}/gi) || [];
 		let url_parts = template.split(/{[a-z]+}/);
 		
@@ -65,13 +76,13 @@ export default class UrlGenerator {
 			for(; i<getArg.length; i++)
 				url += url_parts[i] + getArg[i](args);
 			return url + url_parts[i];
-		}
+		};
 	}
 	
 	private nextSubdomain() {
-		if( subdomains.length === ++this.subdomain_index )
+		if( this.subdomains.length === ++this.subdomain_index )
 			this.subdomain_index = 0;
-		return subdomains[this.subdomain_index];
+		return this.subdomains[this.subdomain_index];
 	}
 	
 	public generate(tile_x: number, tile_y: number, zoom = 13, subdomain = this.nextSubdomain()) {

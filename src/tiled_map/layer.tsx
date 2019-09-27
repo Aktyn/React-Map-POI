@@ -1,5 +1,5 @@
 import * as React from 'react';
-import UrlGenerator, {subdomains} from "./url_generator";
+import UrlGenerator from "./url_generator";
 import {CameraState, TilePos} from "../utils";
 import Tile from "./tile";
 
@@ -260,7 +260,7 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 	}
 	
 	private renderTile(tile: Tile) {
-		let s = subdomains[ tile.id % subdomains.length ];
+		let s = this.props.urlGenerator.subdomains[ tile.id % this.props.urlGenerator.subdomains.length ];
 		const url = this.props.urlGenerator.generate(
 			this.pivotTile.x+tile.x, this.pivotTile.y+tile.y, this.zoom, s);
 		

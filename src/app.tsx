@@ -5,13 +5,18 @@ import GUI from "./gui";
 import {noop} from "./utils";
 
 import './styles/app.scss';
+import CONFIG, {TileProviderData} from "./config";
 
 interface MapSharedContextInterface extends MapSharedState {
 	zoom(factor: number, force?: boolean): void;
+	tileProvider: TileProviderData;
+	changeTileProvider(provider: TileProviderData): void;
 }
 export const MapSharedContext = React.createContext<MapSharedContextInterface>({
 	...defaultSharedState,
-	zoom: noop
+	zoom: noop,
+	changeTileProvider: noop,
+	tileProvider: CONFIG.tileProviders[0]
 });
 
 interface ScreenResolution {
@@ -20,7 +25,8 @@ interface ScreenResolution {
 }
 
 interface AppState extends ScreenResolution{
-	mapState: MapSharedState
+	mapState: MapSharedState;
+	tileProvider: TileProviderData;
 }
 
 function screenResolution(): ScreenResolution {
@@ -36,7 +42,8 @@ export default class App extends React.Component<any, AppState> {
 	
 	state: AppState = {
 		...screenResolution(),
-		mapState: defaultSharedState
+		mapState: defaultSharedState,
+		tileProvider: CONFIG.tileProviders[0]
 	};
 	
 	constructor(props: any) {
@@ -60,6 +67,10 @@ export default class App extends React.Component<any, AppState> {
 				zoom: (factor, force) => {
 					if(this.mapReference)
 						this.mapReference.zoom(factor, !!force);
+				},
+				tileProvider: this.state.tileProvider,
+				changeTileProvider: (provider) => {
+					this.setState({tileProvider: provider});
 				}
 			}}>
 				<TiledMap width={this.state.screenWidth} height={this.state.screenHeight} onUpdate={mapState => {
