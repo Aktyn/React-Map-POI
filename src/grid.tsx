@@ -7,13 +7,17 @@ import Marker, {MarkerData} from "./components/marker";
 
 import './styles/overlays_grid.scss';
 
+const distance_threshold = 48;//pixels
+
 interface GridState {
 	data: ObjectSchema;
 	markers: MarkerData[];
+	fading: boolean;
 }
 
 export default class Grid extends React.Component<any, GridState> {
 	private readonly dataLoadListener = this.onDataLoaded.bind(this);
+	private finalizeTm: NodeJS.Timeout | null = null;
 	
 	private fromContext: {
 		overlaysCenter: TilePos;
@@ -22,12 +26,9 @@ export default class Grid extends React.Component<any, GridState> {
 	
 	state: GridState = {
 		data: [],
-		markers: []
+		markers: [],
+		fading: false
 	};
-	
-	constructor(props: any) {
-		super(props);
-	}
 	
 	componentDidMount() {
 		MapObjects.on(EVENT.LOAD, this.dataLoadListener);
@@ -42,11 +43,42 @@ export default class Grid extends React.Component<any, GridState> {
 		this.preprocessData(data);
 	}
 	
+	private static groupMarkers(markers: MarkerData[]) {
+		let grouped: MarkerData[] = [];
+		
+		while( markers.length > 0 ) {
+			let group = markers.pop() as MarkerData;
+			
+			for(let i=0; i<markers.length; i++) {//rest of the markers
+				let marker = markers[i];
+				let dst =   Math.pow(marker.relativePos.x - group.relativePos.x, 2) +
+							Math.pow(marker.relativePos.y - group.relativePos.y, 2);
+				
+				if(dst < distance_threshold*distance_threshold) {
+					//group markers and average its positions
+					//group.id += marker.id;
+					let elCount = group.elements.length;
+					group.relativePos.x = (group.relativePos.x*elCount + marker.relativePos.x) / (elCount+1);
+					group.elements.push( ...marker.elements );
+					
+					markers.splice(i, 1);//remove added marker from array
+					i--;
+				}
+			}
+			
+			grouped.push(group);
+		}
+	    
+		return grouped;
+	}
+	
 	private preprocessData(data: ObjectSchema) {
 		if( !this.fromContext )
 			return;
 		
-		//here goes positioning and deciding whether to group overlays
+		this.setState({fading: true});
+		
+		//calculate positions for markers
 		let markers: MarkerData[] = [];
 		
 		for(let obj_type of data) {
@@ -66,38 +98,59 @@ export default class Grid extends React.Component<any, GridState> {
 						}
 					],
 					relativePos: {
-						x: Math.floor((tilePos.x - this.fromContext.overlaysCenter.x)*TILE_SIZE),
-						y: Math.floor((tilePos.y - this.fromContext.overlaysCenter.y)*TILE_SIZE)
+						x: (tilePos.x - this.fromContext.overlaysCenter.x)*TILE_SIZE,
+						y: (tilePos.y - this.fromContext.overlaysCenter.y)*TILE_SIZE
 					}
 				});
 			}
 		}
 		
+		let grouped = Grid.groupMarkers(markers);
+		
 		//make sure to update state outside render function
-		setTimeout(() => this.setState({markers}), 1);
+		if(this.finalizeTm)
+			clearTimeout(this.finalizeTm);
+		this.finalizeTm = setTimeout(() => {
+			this.setState({
+				markers: grouped,
+				fading: false
+			});
+			this.finalizeTm = null;
+		}, 500) as never;
 	}
 	
 	private renderMarkers() {
+		//TODO: ignore out of view markers
 		return this.state.markers.map((marker_data) => {
-			return <Marker key={marker_data.id} data={marker_data} />;
+			return <span className={'marker-holder'} key={marker_data.id} style={{
+				transform: `translate(${Math.floor(marker_data.relativePos.x)}px, ${
+					Math.floor(marker_data.relativePos.y)}px)`
+			}}><Marker data={marker_data} /></span>;
 		});
 	}
 	
 	render() {
 		return <MapSharedContext.Consumer>{(context) => {
-			if( !this.fromContext || this.fromContext.camera_zoom !== context.camera.zoom ) {
+			if( !this.fromContext || (this.fromContext.camera_zoom !== context.camera.zoom) )
+			{
+				let noContext = !this.fromContext;
 				this.fromContext = {
 					overlaysCenter: {...context.centerTile},//make sure not to create new object
 					camera_zoom: context.camera.zoom
 				};
 				
-				if(this.state.data.length)
-					this.preprocessData(this.state.data);
+				if(this.state.data.length) {
+					setTimeout(() => this.preprocessData(this.state.data));
+				}
+				
+				if(noContext)
+					return 'Awaiting map context';
 			}
+			let fading = context.zooming || this.state.fading;
 			
 			let dtx = Math.floor( (this.fromContext.overlaysCenter.x - context.centerTile.x) * TILE_SIZE );
 			let dty = Math.floor( (this.fromContext.overlaysCenter.y - context.centerTile.y) * TILE_SIZE );
-			return <div className={`overlays-grid${context.zooming ? ' zooming' : ''}`} style={{
+			return <div className={`overlays-grid${fading ? ' fading' : ''}`} style={{
 				transform: `translate(${dtx}px, ${dty}px)`
 			}}>{this.renderMarkers()}</div>;
 		}}</MapSharedContext.Consumer>;

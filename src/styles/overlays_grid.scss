@@ -1,14 +1,13 @@
 @import "global";
 
 .overlays-grid {
-	//background-color: #f558;
 	display: block;
 	width: 100%;
 	height: 100%;
 	
 	$keepTransform: 3600s linear;
 	
-	& > * {//overlay object
+	& > * {//overlay element holder .marker-holder
 		pointer-events: auto;
 		position: absolute;
 		
@@ -19,21 +18,45 @@
 		width: fit-content;
 		height: fit-content;
 		
-		background-color: #fff;
-		box-shadow: 0px 2px 3px #0006;
-		padding: 5px;
+		& > * {//marker
+			background-color: #fff;
+			box-shadow: 0px 2px 3px #0006;
+			padding: 5px;
+			
+			$popTrans: 0.8s cubic-bezier(.87, -.41, .19, 1.44);
+			transition: transform $popTrans;
+			transform: scale(1);
+			
+			animation: pop-in $popTrans;
+			@keyframes pop-in {
+				0% {
+					transform: scale(0);
+				}
+				100% {
+					transform: scale(1);
+				}
+			}
+			
+		}
 	}
 	
-	&.zooming {
+	$opacityTrans: 0.4s ease-in-out;
+	
+	&.fading {
 		opacity: 0;
-		transition: transform $keepTransform, opacity 0.4s cubic-bezier(.36,.07,.19,.97);
+		transition: transform $keepTransform, opacity $opacityTrans;
 		
 		& > * {
 			transition: transform $keepTransform;
+			
+			& > * {//marker content
+				transform: scale(0);
+				transition: transform 0.6s cubic-bezier(.36,.07,.19,.97);
+			}
 		}
 	}
-	&:not(.zooming) {
+	&:not(.fading) {
 		opacity: 1;
-		transition: opacity 0.6s cubic-bezier(.36,.07,.19,.97);
+		transition: opacity $opacityTrans;
 	}
 }

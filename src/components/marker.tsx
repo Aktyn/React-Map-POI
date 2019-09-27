@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {ObjectDataSchema} from "../map_objects";
 
+//TODO: styles for marker
 
 export interface MarkerData {
 	id: string;
@@ -14,9 +15,13 @@ interface MarkerProps {
 
 export default class Marker extends React.Component<MarkerProps> {
 	
+	componentDidUpdate(prevProps: Readonly<MarkerProps>) {
+		if(prevProps.data.elements.length !== this.props.data.elements.length) {
+			//markers grouped/ungrouped
+		}
+	}
+	
 	render() {
-		return <div style={{
-			transform: `translate(${this.props.data.relativePos.x}px, ${this.props.data.relativePos.y}px)`
-		}}>Marker elements: {this.props.data.elements.length}</div>;
+		return <div className={'marker'}>Marker elements: {this.props.data.elements.length}</div>;
 	}
 }

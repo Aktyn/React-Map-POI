@@ -38,13 +38,13 @@
 		text-align: left;
 	}
 	
-	& > .appearance-opener {
+	.appearance-opener {
 		cursor: pointer;
 		display: inline-grid;
 		grid-template-columns: auto fit-content(100%);
 		align-items: center;
-		padding-left: 15px;
-		position: relative;
+		padding-left: 10px !important;
+		//position: relative;
 		
 		& > svg { //arrow icon
 			color: nth($blueGrey, 10);
