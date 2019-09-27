@@ -28,7 +28,10 @@ export default class RightPanel extends React.Component<any, RightPanelState> {
 	
 	render() {
 		return <div className={'right-panel'}>
-			<div>{this.state.loadingData ? 'loading' : MapObjects.getTotalCount()}</div>
+			<div>{this.state.loadingData ?
+				<span>loading</span> :
+				<span>Total objects: {MapObjects.getTotalCount()}</span>
+			}</div>
 		</div>;
 	}
 }

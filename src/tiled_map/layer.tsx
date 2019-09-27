@@ -264,8 +264,8 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 		const url = this.props.urlGenerator.generate(
 			this.pivotTile.x+tile.x, this.pivotTile.y+tile.y, this.zoom, s);
 		
-		let offX = (tile.x+this.state.pivot_offset.x) * TILE_SIZE;
-		let offY = (tile.y+this.state.pivot_offset.y) * TILE_SIZE;
+		let offX = Math.floor((tile.x+this.state.pivot_offset.x) * TILE_SIZE);
+		let offY = Math.floor((tile.y+this.state.pivot_offset.y) * TILE_SIZE);
 		
 		return <img style={{
 			height: `${TILE_SIZE+1}px`,
@@ -285,8 +285,8 @@ export default class Layer extends React.Component<LayerProps, LayerState> {
 	
 	render() {
 		return <div className={'layer'} style={{
-			transform: `translate(${this.state.offsetX + this.state.grabOffset.x*TILE_SIZE}px, ${
-				this.state.offsetY + this.state.grabOffset.y*TILE_SIZE}px)`
+			transform: `translate(${Math.floor(this.state.offsetX + this.state.grabOffset.x*TILE_SIZE)}px, ${
+				Math.floor(this.state.offsetY + this.state.grabOffset.y*TILE_SIZE)}px)`
 		}}>
 			<div className={`tiles-grid${this.state.zoomed ? ' zoomed' : ''}`} style={{
 				transform: `scale(${this.zoom_diff})`,

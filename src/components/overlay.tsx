@@ -21,8 +21,8 @@ export default class Overlay extends React.Component<OverlayProps, any> {
 			});
 			
 			return <div className={`overlay${context.zooming ? ' is_map_zooming' : ''}`} style={{
-				transform: `translate(${(center.x - context.centerTile.x)*TILE_SIZE}px, ${
-					(center.y - context.centerTile.y)*TILE_SIZE}px)`
+				transform: `translate(${Math.floor((center.x - context.centerTile.x)*TILE_SIZE)}px, ${
+					Math.floor((center.y - context.centerTile.y)*TILE_SIZE)}px)`
 			}}>{this.props.children}</div>;
 		}}</MapSharedContext.Consumer>;
 	}

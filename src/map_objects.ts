@@ -69,14 +69,13 @@ export interface PoiSchema extends CommonSchema {
 	picture?: null;
 }
 
-type ObjectDataSchema = VehicleSchema | ParkingSchema | PoiSchema;
-
+export type ObjectDataSchema = VehicleSchema | ParkingSchema | PoiSchema;
 
 const OBJECTS = [
 	{
 		'type': 'VEHICLE',
 		'objects': <VehicleSchema[]>[]
-	}, /*{
+	}/*, {
 		'type': 'PARKING',
 		'objects': <ParkingSchema[]>[]
 	}, {

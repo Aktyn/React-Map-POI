@@ -13,10 +13,10 @@ export interface MapSharedState {
 	centerTile: TilePos;
 }
 
-const startCamera = {
-	latitude: 51.4764211,
-	longitude: 21.3709875,
-	zoom: 14
+const startCamera = {//52°13'35.5''N    //21°01'44.5''E
+	latitude: 52.226528,
+	longitude: 21.029028,
+	zoom: 12
 };
 
 export const defaultSharedState = {
