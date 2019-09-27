@@ -21,7 +21,10 @@ function formatDeg(float_deg: number) {
 
 //converts latitude and longitude values given in float degrees to geographic format
 function formatLatitudeLongitude(latitude: number, longitude: number) {
-	return `${formatDeg(latitude)}N ${formatDeg(longitude)}E`;
+	return <>
+		<span>{formatDeg(latitude)}N</span><br />
+		<span>{formatDeg(longitude)}E</span>
+	</>;
 }
 
 interface GUIState {
@@ -52,9 +55,11 @@ export default class GUI extends React.Component<any, GUIState> {
 							() => context.zoom(1, true)
 						} />
 					</div>
+					<div className={'zoom-info'}>{context.camera.zoom}</div>
 					<div className={'position-info'}>{
 						formatLatitudeLongitude(context.camera.latitude, context.camera.longitude)
-					}</div>
+					}
+					</div>
 					<div className={'appearance-opener shaky-icon'} onClick={e => {
 						this.openAppearanceOptions(e.clientX, e.clientY);
 					}}>

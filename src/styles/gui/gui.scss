@@ -5,6 +5,8 @@
 	width: 100vw;
 	height: 100vh;
 	
+	$bubbleSize: 200vh;
+	
 	& > * {
 		pointer-events: auto;
 		position: absolute;
@@ -40,7 +42,7 @@
 		& > .zoom-buttons {
 			height: floor($zoomBtnSize * 2 * 0.618);
 			width: $zoomBtnSize * 2;
-			display: grid;
+			display: inline-grid;
 			grid-template-columns: $zoomBtnSize $zoomBtnSize;
 			align-items: center;
 			
@@ -60,9 +62,20 @@
 			}
 		}
 		
+		& > .zoom-info {
+			clear: both;
+			display: inline-block;
+			vertical-align: top;
+			text-align: center;
+			$size: floor($zoomBtnSize * 2 * 0.618);
+			width: $size;
+			height: $size;
+			line-height: $size;
+		}
+		
 		& > .position-info {
-			display: table;
-			white-space: pre-wrap;
+			display: block;
+			white-space: nowrap;
 			width: min-content;
 			text-align: left;
 		}
@@ -110,15 +123,17 @@
 		
 		& > .bubble {
 			position: absolute;
-			width: 100vw;
-			height: 100vw;
-			border-radius: 100vw;
+			
+			width: $bubbleSize;
+			height: $bubbleSize;
+			border-radius: $bubbleSize;
 			left: 0px;
 			top: 0px;
-			background-color: #fff;
+			//background-color: #fff;
+			background-color: nth($blueGrey, 2);
 			z-index: -1;
 			
-			transform: translate(-50vw, -50vw) scale(0);
+			transform: translate((-$bubbleSize/2), (-$bubbleSize/2)) scale(0);
 		}
 		
 		.content {
@@ -154,10 +169,10 @@
 			
 				@keyframes bubble {
 					0% {
-						transform: translate(-50vw, -50vw) scale(0);
+						transform: translate((-$bubbleSize/2), (-$bubbleSize/2)) scale(0);
 					}
 					100% {
-						transform: translate(-50vw, -50vw) scale(1);
+						transform: translate((-$bubbleSize/2), (-$bubbleSize/2)) scale(1);
 					}
 				}
 			}
