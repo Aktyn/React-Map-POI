@@ -1,6 +1,6 @@
 import * as React from 'react';
 import TiledMap, {defaultSharedState, MapSharedState} from "./tiled_map";
-import Overlay from "./components/overlay";
+import Grid from "./grid";
 import GUI from "./gui";
 import {noop} from "./utils";
 import CONFIG, {TileProviderData} from "./config";
@@ -76,8 +76,7 @@ export default class App extends React.Component<any, AppState> {
 				<TiledMap width={this.state.screenWidth} height={this.state.screenHeight} onUpdate={mapState => {
 					this.setState({mapState})
 				}} ref={el => this.mapReference = el}>
-					<Overlay latitude={51.4764211} longitude={21.3709875}>Village & Pillage</Overlay>
-					<Overlay latitude={51.7769046} longitude={19.4278944}>City of students</Overlay>
+					<Grid />
 				</TiledMap>
 				<GUI />
 			</MapSharedContext.Provider>

@@ -12,82 +12,48 @@
 		position: absolute;
 	}
 	
-	& > .left-panel {
-		left: 0;
-		top: 0;
-		text-align: left;
-		
+	& > .left-panel, & > .right-panel {
 		& > * {
 			padding: 5px;
 			margin: 5px;
-			background-color: #fff;
+			background-color: #FFF;
 			box-shadow: 0px 1px 3px #0006;
 			border-radius: 5px;
-			
-			transform: translateX( calc(-100% - 20px) );
+		}
+		
+		$slidingGuiTrans: 0.5s cubic-bezier(.36, .07, .19, .97) forwards;
+		$totalDelay: 0.7s;
+		
+		&.left-panel > * {
+			transform: translateX(calc(-100% - 20px));
 			@keyframes slide-from-left {
-				0%  {transform: translateX(calc(-100% - 20px))}
-				100%{transform: translateX(0)}
+				0% {transform: translateX(calc(-100% - 20px))}
+				100% {transform: translateX(0)}
 			}
-			animation: slide-from-left 0.5s cubic-bezier(.36,.07,.19,.97) forwards;
+			animation: slide-from-left $slidingGuiTrans;
 			
 			$children: 4;
 			@for $i from 1 through $children {
 				&:nth-child(#{$i}) {
-					animation-delay: 0.7s * ($i - 1) / $children;
+					animation-delay: $totalDelay * (($i - 1) / $children);
 				}
 			}
 		}
 		
-		& > .zoom-buttons {
-			height: floor($zoomBtnSize * 2 * 0.618);
-			width: $zoomBtnSize * 2;
-			display: inline-grid;
-			grid-template-columns: $zoomBtnSize $zoomBtnSize;
-			align-items: center;
-			
-			& > * {
-				width: $zoomBtnSize;
-				height: $zoomBtnSize;
-				color: nth($blueGrey, 10);
-				font-weight: normal;
+		&.right-panel > * {
+			transform: translateX(calc(100% + 20px));
+			@keyframes slide-from-right {
+				0% {transform: translateX(calc(100% + 20px))}
+				100% {transform: translateX(0)}
 			}
-		}
-		
-		& > .zoom-info {
-			clear: both;
-			display: inline-block;
-			vertical-align: top;
-			text-align: center;
-			$size: floor($zoomBtnSize * 2 * 0.618);
-			width: $size;
-			height: $size;
-			line-height: $size;
-		}
-		
-		& > .position-info {
-			display: block;
-			white-space: nowrap;
-			width: min-content;
-			text-align: left;
-		}
-		
-		& > .appearance-opener {
-			cursor: pointer;
-			display: inline-grid;
-		    grid-template-columns: auto fit-content(100%);
-		    align-items: center;
-			padding-left: 15px;
-			position: relative;
+			animation: slide-from-right $slidingGuiTrans;
 			
-			& > svg {//arrow icon
-				color: nth($blueGrey, 10);
-				opacity: 0.66;
-				transition: $hoverIconBtnTrans;
-				margin-left: 5px;
-			}
-			&:hover > svg {
-				opacity: 1;
+			$children: 1;
+			@for $i from 1 through $children {
+				&:nth-child(#{$i}) {
+					//waits for left panel to finish it's animation
+					animation-delay: $totalDelay * (($i - 1) / $children) + $totalDelay;
+				}
 			}
 		}
 	}

@@ -19,11 +19,13 @@
 	},
 	"homepage": "https://github.com/Aktyn/React-Map-POI#readme",
 	"dependencies": {
+		"events": "^3.0.0",
 		"react": "^16.9.0",
 		"react-dom": "^16.9.0"
 	},
 	"devDependencies": {
 		"@fortawesome/fontawesome-free": "^5.11.2",
+		"@types/events": "^3.0.0",
 		"@types/react": "^16.9.2",
 		"@types/react-dom": "^16.9.0",
 		"autoprefixer": "^9.6.1",

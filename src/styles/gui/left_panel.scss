@@ -1,0 +1,60 @@
+@import "../global";
+
+.left-panel {
+	left: 0;
+	top: 0;
+	text-align: left;
+	
+	& > .zoom-buttons {
+		height: floor($zoomBtnSize * 2 * 0.618);
+		width: $zoomBtnSize * 2;
+		display: inline-grid;
+		grid-template-columns: $zoomBtnSize $zoomBtnSize;
+		align-items: center;
+		
+		& > * {
+			width: $zoomBtnSize;
+			height: $zoomBtnSize;
+			color: nth($blueGrey, 10);
+			font-weight: normal;
+		}
+	}
+	
+	& > .zoom-info {
+		clear: both;
+		display: inline-block;
+		vertical-align: top;
+		text-align: center;
+		$size: floor($zoomBtnSize * 2 * 0.618);
+		width: $size;
+		height: $size;
+		line-height: $size;
+	}
+	
+	& > .position-info {
+		display: block;
+		white-space: nowrap;
+		width: min-content;
+		text-align: left;
+	}
+	
+	& > .appearance-opener {
+		cursor: pointer;
+		display: inline-grid;
+		grid-template-columns: auto fit-content(100%);
+		align-items: center;
+		padding-left: 15px;
+		position: relative;
+		
+		& > svg { //arrow icon
+			color: nth($blueGrey, 10);
+			opacity: 0.66;
+			transition: $hoverIconBtnTrans;
+			margin: 0px 5px;
+		}
+		
+		&:hover > svg {
+			opacity: 1;
+		}
+	}
+}
