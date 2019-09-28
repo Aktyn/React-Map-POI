@@ -75,13 +75,13 @@ const OBJECTS = [
 	{
 		'type': 'VEHICLE',
 		'objects': <VehicleSchema[]>[]
-	}/*, {
+	}, {
 		'type': 'PARKING',
 		'objects': <ParkingSchema[]>[]
 	}, {
 		'type': 'POI',
 		'objects': <PoiSchema[]>[]
-	}*/
+	}
 ];
 
 export type ObjectSchema = typeof OBJECTS;
@@ -93,10 +93,19 @@ async function loadObjectsData(obj: {type: string, objects: ObjectDataSchema[]})
 	return obj;
 }
 
-Promise.all( OBJECTS.map(obj => loadObjectsData(obj)) ).then(() => {
+if( process.env.NODE_ENV === 'development' ) {
+	OBJECTS[0].objects = require('./test_data/VEHICLE.json').objects;
+	OBJECTS[1].objects = require('./test_data/PARKING.json').objects;
+	OBJECTS[2].objects = require('./test_data/POI.json').objects;
 	loaded = true;
 	emitter.emit(EVENT.LOAD, OBJECTS);
-}).catch(console.error);
+}
+else {
+	Promise.all(OBJECTS.map(obj => loadObjectsData(obj))).then(() => {
+		loaded = true;
+		emitter.emit(EVENT.LOAD, OBJECTS);
+	}).catch(console.error);
+}
 
 
 type callbackFunc = (...args: any[]) => void;
@@ -106,7 +115,7 @@ export default {
 		switch (event) {
 			case EVENT.LOAD:
 				if(loaded)
-					callback();
+					callback(OBJECTS);
 				break;
 		}
 		return emitter.on(event, callback);

@@ -39,7 +39,10 @@ const CONFIG = {
 			name: 'World Imagery',
 			template_url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
 		}
-	]
+	],
+	
+	//marker size in pixels
+	markerSize: 48
 };
 
 export default CONFIG;

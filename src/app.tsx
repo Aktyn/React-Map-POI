@@ -76,7 +76,7 @@ export default class App extends React.Component<any, AppState> {
 				<TiledMap width={this.state.screenWidth} height={this.state.screenHeight} onUpdate={mapState => {
 					this.setState({mapState})
 				}} ref={el => this.mapReference = el}>
-					<Grid />
+					<Grid width={this.state.screenWidth} height={this.state.screenHeight} />
 				</TiledMap>
 				<GUI />
 			</MapSharedContext.Provider>

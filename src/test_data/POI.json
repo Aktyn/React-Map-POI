@@ -1,0 +1,1060 @@
+{
+	"objects": [
+		{
+			"discriminator": "poi",
+			"id": "00bf4ba5-c180-4460-8398-83c650414c54",
+			"name": "Narodowe Forum Muzyki",
+			"description": "Narodowe Forum Muzyki",
+			"location": {
+				"latitude": 51.11057,
+				"longitude": 17.044326
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "08df9159-a56b-460e-94ce-06a0d5e3666a",
+			"name": "Wrocław Zachodni",
+			"description": "Stacja kolejowa: Wrocław Zachodni",
+			"location": {
+				"latitude": 51.090203,
+				"longitude": 16.950611
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "11ae6260-e065-4f47-ae9f-09b3ec51167a",
+			"name": "Wrocław Kuźniki",
+			"description": "Stacja kolejowa: Wrocław Kuźniki",
+			"location": {
+				"latitude": 51.127194,
+				"longitude": 16.953301
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "13334a59-98d1-4a34-afa0-73920c89d487",
+			"name": "Wrocław Brochów",
+			"description": "Stacja kolejowa Wrocław Brochów",
+			"location": {
+				"latitude": 51.064337,
+				"longitude": 17.084293
+			},
+			"metadata": {},
+			"address": {
+				"street": "Mościckiego",
+				"house": "36",
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "168a128f-dd5d-425c-b37a-d59ad56909a0",
+			"name": "Wrocław Popowice",
+			"description": "Stacja kolejowa: Wrocław Popowice",
+			"location": {
+				"latitude": 51.12721,
+				"longitude": 17.001381
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "17a38404-ef01-4d98-a065-c0554647506b",
+			"name": "Park Południowy",
+			"description": "Park Południowy",
+			"location": {
+				"latitude": 51.075355,
+				"longitude": 17.010315
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "19d11338-dffd-46a0-b52b-59592735bf9e",
+			"name": "Rynek (pl. Solny)",
+			"description": "Rynek (pl. Solny)",
+			"location": {
+				"latitude": 17.028904,
+				"longitude": 51.109574
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "2139e5f0-2596-4e53-ac58-c6719a0aeb7f",
+			"name": "Zraszacz",
+			"description": "Zraszacz - Krasnal",
+			"location": {
+				"latitude": 51.109748,
+				"longitude": 17.031125
+			},
+			"metadata": {},
+			"address": {
+				"street": "Rynek",
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Krasnale",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "2229e5f0-2596-4e53-ac58-c6719a0aeb7f",
+			"name": "Rynek",
+			"description": "Rynek, Wrocław",
+			"location": {
+				"latitude": 51.109751,
+				"longitude": 17.030717
+			},
+			"metadata": {},
+			"address": {
+				"street": "Rynek",
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "24197d3b-c248-43ef-9cd1-04b5d0adcce2",
+			"name": "Hydropolis",
+			"description": "Hydropolis",
+			"location": {
+				"latitude": 51.103919,
+				"longitude": 17.057494
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "27373ded-216e-4675-b8e7-29ee784cd480",
+			"name": "Wrocław Kowale",
+			"description": "Stacja kolejowa: Wrocław Kowale",
+			"location": {
+				"latitude": 51.134486,
+				"longitude": 17.100544
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "3139e5f0-2596-4e53-ac58-c6719a0aeb7f",
+			"name": "Sky Tower",
+			"description": "Sky Tower",
+			"location": {
+				"latitude": 51.094802,
+				"longitude": 17.018731
+			},
+			"metadata": {},
+			"address": {
+				"street": "Sky Tower",
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "3e204f8b-9545-4712-9970-26a73c2a62de",
+			"name": "Wrocław Nadodrze",
+			"description": "Stacja kolejowa: Wrocław Nadodrze",
+			"location": {
+				"latitude": 51.125475,
+				"longitude": 17.032527
+			},
+			"metadata": {},
+			"address": {
+				"street": "Plac ks. Stanisława Staszica",
+				"house": "50",
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "4343c2ee-0825-478d-85a8-be2aee132156",
+			"name": "Wrocław Stadion",
+			"description": "Wrocław Stadion",
+			"location": {
+				"latitude": 51.141143,
+				"longitude": 16.943751
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "4f011511-f65c-4517-a0f6-cb4a09da5490",
+			"name": "Wrocław Żerniki",
+			"description": "Stacja kolejowa: Wrocław Żerniki",
+			"location": {
+				"latitude": 51.126152,
+				"longitude": 16.915696
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "4fc4ed9a-48ab-45f3-8c55-6ea2e9ad5fa2",
+			"name": "Wrocław Zakrzów",
+			"description": "Stacja kolejowa: Wrocław Zakrzów",
+			"location": {
+				"latitude": 51.158767,
+				"longitude": 17.122165
+			},
+			"metadata": {},
+			"address": {
+				"street": "Dubrownicka",
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "55e88fd5-6627-4aa1-83b0-a03173eeb5af",
+			"name": "Panorama Racławicka",
+			"description": "Panorama Racławicka",
+			"location": {
+				"latitude": 51.11057,
+				"longitude": 17.044326
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "575f1086-5927-4ee6-8cd1-42146459135b",
+			"name": "Wrocław Sołtysowice",
+			"description": "Stacja kolejowa: Wrocław Sołtysowice",
+			"location": {
+				"latitude": 51.142401,
+				"longitude": 17.083092
+			},
+			"metadata": {},
+			"address": {
+				"street": "aleja Poprzeczna",
+				"house": "37",
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "5c2d8fd3-f660-49cb-a40d-a73342179f39",
+			"name": "Centrum Historii Zajezdnia",
+			"description": "Centrum Historii Zajezdnia",
+			"location": {
+				"latitude": 51.09671,
+				"longitude": 16.991208
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "602f2bc6-f8d5-4662-bd27-0ce5ad630bf0",
+			"name": "Wrocław Brochów",
+			"description": "Stacja kolejowa: Wrocław Główny",
+			"location": {
+				"latitude": 51.098899,
+				"longitude": 17.03669
+			},
+			"metadata": {},
+			"address": {
+				"street": "Piłsudskiego",
+				"house": "105",
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "72ecd6b8-a887-4444-bca1-42ebacc19851",
+			"name": "ZOO",
+			"description": "ZOO",
+			"location": {
+				"latitude": 51.105672,
+				"longitude": 17.075911
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "73d4a8df-aa9e-4ef8-ac3a-f820a142a418",
+			"name": "Port Lotniczy Wrocław",
+			"description": "Port Lotniczy Wrocław",
+			"location": {
+				"latitude": 51.110802,
+				"longitude": 16.878196
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "7ee102c1-31d8-4d18-a8d9-69ee9e4f06f8",
+			"name": "Wrocław Osobowice",
+			"description": "Stacja kolejowa: Wrocław Osobowice",
+			"location": {
+				"latitude": 51.16656,
+				"longitude": 16.997389
+			},
+			"metadata": {},
+			"address": {
+				"street": "Pełczyńska",
+				"house": "44",
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "84ad17d5-0539-4a92-89d5-0c5d2beb5ad9",
+			"name": "Park Zachodni",
+			"description": "Park Zachodni",
+			"location": {
+				"latitude": 51.130101,
+				"longitude": 16.971441
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "85e00646-db97-4fb0-89ec-9aa62da6bbc6",
+			"name": "Wrocław Nowy Dwór",
+			"description": "Stacja kolejowa: Wrocław Nowy Dwór",
+			"location": {
+				"latitude": 51.1199,
+				"longitude": 16.953373
+			},
+			"metadata": {},
+			"address": {
+				"street": "Żernicka",
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "874e459d-e003-4d91-8577-eecaa9cca942",
+			"name": "Wrocław Różanka",
+			"description": "Stacja kolejowa: Wrocław Różanka",
+			"location": {
+				"latitude": 51.13803,
+				"longitude": 17.003848
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "9d1f49c4-e0ac-497f-a5f1-a0271fab424a",
+			"name": "Wrocławski Park Technologiczny",
+			"description": "Wrocławski Park Technologiczny",
+			"location": {
+				"latitude": 51.108018,
+				"longitude": 16.971263
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "9ff6aa23-0210-44f2-b081-7915e940fd38",
+			"name": "Kolejkowo",
+			"description": "Kolejkowo",
+			"location": {
+				"latitude": 51.108033,
+				"longitude": 17.020347
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "a0d85b45-5741-4884-b080-ea6fc8f02f54",
+			"name": "Wrocław Muchobór",
+			"description": "Stacja kolejowa: Wrocław Muchobór",
+			"location": {
+				"latitude": 51.111661,
+				"longitude": 16.974192
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "a75ef20c-d5af-4b5e-9210-b747e90645a4",
+			"name": "Sky Tower",
+			"description": "Sky Tower",
+			"location": {
+				"latitude": 51.094423,
+				"longitude": 17.020978
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "bd3d7f49-cf1c-46b4-afb5-08ee0f87a15a",
+			"name": "Wrocław Świniary",
+			"description": "Stacja kolejowa: Wrocław Świniary",
+			"location": {
+				"latitude": 51.197595,
+				"longitude": 16.970276
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "c3e839ce-2553-4a31-8adf-3a0f16a3c3ec",
+			"name": "Smolec",
+			"description": "Stacja kolejowa: Smolec",
+			"location": {
+				"latitude": 51.071699,
+				"longitude": 16.881629
+			},
+			"metadata": {},
+			"address": {
+				"street": "Dworcowa",
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "c5fd806e-d7d6-4d0c-b719-8d73fb6eef47",
+			"name": "Teatr Muzyczny Capitol",
+			"description": "Teatr Muzyczny Capitol",
+			"location": {
+				"latitude": 51.100849,
+				"longitude": 17.030124
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "c72f1b03-325e-4731-baec-4757a90326c2",
+			"name": "Wrocław Mikołajów",
+			"description": "Stacja kolejowa: Wrocław Mikołajów",
+			"location": {
+				"latitude": 51.11524,
+				"longitude": 16.998491
+			},
+			"metadata": {},
+			"address": {
+				"street": "Stacyjna",
+				"house": "5",
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "cc379ece-c06a-4104-905d-51ae1e590beb",
+			"name": "Wrocław Swojczyce",
+			"description": "Stacja kolejowa: Wrocław Swojczyce",
+			"location": {
+				"latitude": 51.115873,
+				"longitude": 17.1214
+			},
+			"metadata": {},
+			"address": {
+				"street": "Gospodarska",
+				"house": "1",
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "ccc23208-07c0-4302-9193-b2e12ea6bf58",
+			"name": "Wrocław Psie Pole",
+			"description": "Stacja kolejowa: Wrocław Psie Pole",
+			"location": {
+				"latitude": 51.150426,
+				"longitude": 17.119248
+			},
+			"metadata": {},
+			"address": {
+				"street": "Dobroszycka",
+				"house": "2",
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "cf76b941-519f-41e4-8053-8d1670f06643",
+			"name": "Bielany Wrocławskie",
+			"description": "Stacja kolejowa: Bielany Wrocławskie",
+			"location": {
+				"latitude": 51.037276,
+				"longitude": 16.976182
+			},
+			"metadata": {},
+			"address": {
+				"street": "Dworcowa",
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "d119e5f0-2596-4e53-ac58-c6719a0aeb7f",
+			"name": "Wrocław Główny",
+			"description": "Dworzec Główny PKP, Wrocław",
+			"location": {
+				"latitude": 51.09888,
+				"longitude": 17.036568
+			},
+			"metadata": {},
+			"address": {
+				"street": "Piłsudskiego",
+				"house": "105",
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "d195794e-6795-474b-89a1-7cd747ddb142",
+			"name": "Ogród Japoński",
+			"description": "Ogród Japoński",
+			"location": {
+				"latitude": 51.11015,
+				"longitude": 17.078862
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "d6b5725e-64d6-4e4c-a792-463784074f5b",
+			"name": "Wrocław Stadion",
+			"description": "Stacja kolejowa: Wrocław Stadion",
+			"location": {
+				"latitude": 51.136992,
+				"longitude": 16.940858
+			},
+			"metadata": {},
+			"address": {
+				"street": "Warciańska",
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "dd3a655d-f875-4fd4-bb9c-df213d02bcb9",
+			"name": "Hala Stulecia",
+			"description": "Hala Stulecia",
+			"location": {
+				"latitude": 51.106318,
+				"longitude": 17.076769
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "e31d8116-640f-4669-a704-bc8fc8997990",
+			"name": "Wrocław Grabiszyn",
+			"description": "Stacja kolejowa: Wrocław Grabiszyn",
+			"location": {
+				"latitude": 51.096712,
+				"longitude": 16.974283
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "e5f3bca6-3537-4b96-bfa0-ffc36a66789c",
+			"name": "Muzeum Współczesne",
+			"description": "Muzeum Współczesne",
+			"location": {
+				"latitude": 51.113197,
+				"longitude": 17.00533
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "ea2d33d9-1df3-4e76-902e-874829dfc4e1",
+			"name": "Wrocław Leśnica",
+			"description": "Stacja kolejowa: Wrocław Leśnica",
+			"location": {
+				"latitude": 51.142953,
+				"longitude": 16.866649
+			},
+			"metadata": {},
+			"address": {
+				"street": "Rubczaka",
+				"house": "20",
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "edbcf75d-228b-485b-96c5-45f678bac5a1",
+			"name": "Wrocławski Park Wodny",
+			"description": "Wrocławski Park Wodny",
+			"location": {
+				"latitude": 51.091047,
+				"longitude": 17.032414
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "ef6cf875-c3f8-49c2-a7c6-557394ab5433",
+			"name": "Wrocław Pawłowice",
+			"description": "Stacja kolejowa: Wrocław Pawłowice",
+			"location": {
+				"latitude": 51.168568,
+				"longitude": 17.108918
+			},
+			"metadata": {},
+			"address": {
+				"street": "Starodębowa",
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Stacje kolejowe",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "fe0d54f3-b760-4c1c-aedd-bd35eb438e6e",
+			"name": "Wyspa Piasek",
+			"description": "Wyspa Piasek",
+			"location": {
+				"latitude": 51.114997,
+				"longitude": 17.040907
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		},
+		{
+			"discriminator": "poi",
+			"id": "feed168a-1fba-4b7e-a9ef-8b326d9500c2",
+			"name": "Ostrów Tumski",
+			"description": "Ostrów Tumski",
+			"location": {
+				"latitude": 51.114474,
+				"longitude": 17.04691
+			},
+			"metadata": {},
+			"address": {
+				"street": null,
+				"house": null,
+				"city": "Wrocław"
+			},
+			"category": "Ciekawe miejsca",
+			"picture": null,
+			"color": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			}
+		}
+	]
+}

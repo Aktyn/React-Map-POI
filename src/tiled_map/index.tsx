@@ -14,9 +14,9 @@ export interface MapSharedState {
 }
 
 const startCamera = {//52°13'35.5''N    //21°01'44.5''E
-	latitude: 52.226528,
-	longitude: 21.029028,
-	zoom: 12
+	latitude: 51.107194,
+	longitude: 17.038750,
+	zoom: 15
 };
 
 export const defaultSharedState = {

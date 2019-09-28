@@ -1,0 +1,598 @@
+{
+	"objects": [
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R097",
+			"sideNumber": "097",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "5a644837-6c93-42fb-bca1-40d8d707b722",
+				"name": "5a644837-6c93-42fb-bca1-40d8d707b722",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": null,
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "df4590e2-6de7-4b8e-ab3e-9674876f2735",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 52.2844380241,
+				"longitude": 21.0214831623
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R043",
+			"sideNumber": "043",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"name": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 97,
+			"batteryLevelPct": 61,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": "Braniborska 44",
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "e566285d-daac-4aae-9a81-f2bc68aa7e9c",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 51.111182,
+				"longitude": 17.011744
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R039",
+			"sideNumber": "039",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "bea9e77e-fa89-4444-9a3a-119f5582ff66",
+				"name": "bea9e77e-fa89-4444-9a3a-119f5582ff66",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": null,
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "527d1acf-68eb-4928-9ae1-7b2a55986a01",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 52.2199532492,
+				"longitude": 20.9726263959
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R086",
+			"sideNumber": "086",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"name": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": "Stefana Jaracza 27",
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "08bbbf91-155f-46ef-8414-a29327aa6366",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 51.0566061889,
+				"longitude": 17.0127962437
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R023",
+			"sideNumber": "023",
+			"color": "White",
+			"type": "TRUCK",
+			"picture": {
+				"id": "eeaa82bf-3ae9-4971-9edc-dfc031d1c9dd",
+				"name": "eeaa82bf-3ae9-4971-9edc-dfc031d1c9dd",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": "Pomorska 32",
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "11106cc8-06c3-408e-a9b0-190a27c4f54e",
+			"name": "Enigma Python Car Dev",
+			"description": null,
+			"location": {
+				"latitude": 51.1036060116,
+				"longitude": 16.9896666543
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R081",
+			"sideNumber": "081",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"name": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": null,
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "52299a19-55c7-4262-b2fc-7099f2b26210",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 52.2041227523,
+				"longitude": 21.0303884364
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R083",
+			"sideNumber": "083",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"name": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": null,
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "9ec6ccd0-1b23-47ce-80a6-0d6b6eff3a35",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 52.2772698053,
+				"longitude": 20.9532186037
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R050",
+			"sideNumber": "050",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"name": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": "Aleja Poprzeczna 39",
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "25b42af6-6105-47ee-894d-f327c4f5368b",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 51.1434278772,
+				"longitude": 17.0798681536
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R011",
+			"sideNumber": "011",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "cbb7c878-04dc-40e3-80f8-d090216feeef",
+				"name": "cbb7c878-04dc-40e3-80f8-d090216feeef",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": "Owocowa 23",
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "1a52e003-97a9-46cb-97e8-3542db735d3a",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 51.1438898399,
+				"longitude": 17.0434596623
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R034",
+			"sideNumber": "034",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"name": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": null,
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "61959595-8b9b-4799-bbea-fd14c9246d31",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 52.1832066085,
+				"longitude": 21.0493065773
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R033",
+			"sideNumber": "033",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"name": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": null,
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "7338c044-ef9b-48f6-b219-7426ccac586f",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 52.2240029503,
+				"longitude": 20.953972692
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R037",
+			"sideNumber": "037",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "a3b87cb8-ecc6-44e5-8687-ceb450e9f6bb",
+				"name": "a3b87cb8-ecc6-44e5-8687-ceb450e9f6bb",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": null,
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "36b2f8c9-0550-4608-b2d8-8a1dfa8de5d8",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 52.2025599032,
+				"longitude": 21.0186095853
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "WZ3326U",
+			"sideNumber": "WZ3326U",
+			"color": "Blue",
+			"type": "CAR",
+			"picture": {
+				"id": "300c43e9-815f-4839-a2a7-3f60e23b7af3",
+				"name": "300c43e9-815f-4839-a2a7-3f60e23b7af3",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 88,
+			"batteryLevelPct": 51,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": null,
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "00000000-0000-0000-0000-000000000042",
+			"name": "Nissan Old Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 52.195232,
+				"longitude": 20.929611
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R013",
+			"sideNumber": "013",
+			"color": "White",
+			"type": "TRUCK",
+			"picture": {
+				"id": "a3b87cb8-ecc6-44e5-8687-ceb450e9f6bb",
+				"name": "a3b87cb8-ecc6-44e5-8687-ceb450e9f6bb",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": "Świętego Józefa",
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "34e51114-8f57-4bdd-b3c5-999b17c89382",
+			"name": "Enigma Python Car Dev",
+			"description": null,
+			"location": {
+				"latitude": 52.2455650468,
+				"longitude": 21.0550698861
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R052",
+			"sideNumber": "052",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"name": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": "Sołtysia",
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "116c9cd7-f579-4404-8608-2f1ccc18ef11",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 51.0774057665,
+				"longitude": 17.0579791435
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R072",
+			"sideNumber": "072",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "0f0e977a-f237-4cd3-992f-f1c2c45a0755",
+				"name": "0f0e977a-f237-4cd3-992f-f1c2c45a0755",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": "Irysowa",
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "818c40d2-d22d-48ad-be6f-06f8f628233a",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 51.091723912,
+				"longitude": 17.0823474721
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "DW9R077",
+			"sideNumber": "077",
+			"color": "White",
+			"type": "CAR",
+			"picture": {
+				"id": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"name": "61133b4c-2e9b-4da9-b22c-009baad8eadd",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 193,
+			"batteryLevelPct": 98,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": "Krynicka 33",
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "01a2c01a-2736-4b24-8d7f-fe94069fb6d1",
+			"name": "NISSAN Leaf Dev",
+			"description": null,
+			"location": {
+				"latitude": 51.1284266107,
+				"longitude": 17.001730506
+			},
+			"metadata": null
+		},
+		{
+			"discriminator": "vehicle",
+			"platesNumber": "Renault Zoe",
+			"sideNumber": "Renault Zoe",
+			"color": "Blue",
+			"type": "CAR",
+			"picture": {
+				"id": "300c43e9-815f-4839-a2a7-3f60e23b7af3",
+				"name": "300c43e9-815f-4839-a2a7-3f60e23b7af3",
+				"extension": null,
+				"contentType": null
+			},
+			"rangeKm": 74,
+			"batteryLevelPct": 37,
+			"reservationEnd": null,
+			"reservation": null,
+			"status": "AVAILABLE",
+			"locationDescription": null,
+			"address": null,
+			"mapColor": {
+				"rgb": "ffffff",
+				"alpha": 0.5
+			},
+			"promotion": null,
+			"id": "00000000-0000-0000-0000-000000000004",
+			"name": "Nissan Old Zoe",
+			"description": null,
+			"location": {
+				"latitude": 52.187511,
+				"longitude": 20.930528
+			},
+			"metadata": null
+		}
+	]
+}

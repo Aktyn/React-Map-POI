@@ -6,8 +6,12 @@ import {TILE_SIZE} from "./tiled_map/layer";
 import Marker, {MarkerData} from "./components/marker";
 
 import './styles/overlays_grid.scss';
+import CONFIG from "./config";
 
-const distance_threshold = 48;//pixels
+interface GridProps {
+	width: number;
+	height: number;
+}
 
 interface GridState {
 	data: ObjectSchema;
@@ -15,7 +19,7 @@ interface GridState {
 	locked: boolean;
 }
 
-export default class Grid extends React.Component<any, GridState> {
+export default class Grid extends React.Component<GridProps, GridState> {
 	private readonly dataLoadListener = this.onDataLoaded.bind(this);
 	
 	private dtx = 0;
@@ -62,7 +66,8 @@ export default class Grid extends React.Component<any, GridState> {
 				let dst =   Math.pow(marker.relativePos.x - group.relativePos.x, 2) +
 							Math.pow(marker.relativePos.y - group.relativePos.y, 2);
 				
-				if(dst < distance_threshold*distance_threshold) {
+				let minDst = CONFIG.markerSize;
+				if(dst < minDst*minDst) {
 					//group markers and average its positions
 					//group.id += marker.id;
 					let elCount = group.elements.length;
@@ -130,9 +135,16 @@ export default class Grid extends React.Component<any, GridState> {
 		return markers;
 	}
 	
-	private renderMarkers() {
-		//TODO: ignore out of view markers
+	private renderMarkers(dtx: number, dty: number) {
+		const offset = 256;
 		return this.state.markers.map((marker_data) => {
+			let posX = marker_data.relativePos.x + dtx;
+			let posY = marker_data.relativePos.y + dty;
+			if( posX < -(this.props.width/2+offset) || posX > this.props.width/2+offset ||
+				posY < -(this.props.height/2+offset) || posY > this.props.height/2+offset)
+			{
+				return undefined;
+			}
 			return <span className={'marker-holder'} key={marker_data.id} style={{
 				transform: `translate(${Math.floor(marker_data.relativePos.x)}px, ${
 					Math.floor(marker_data.relativePos.y)}px)`
@@ -174,7 +186,7 @@ export default class Grid extends React.Component<any, GridState> {
 			this.dty = Math.floor( (this.fromContext.overlaysCenter.y - context.centerTile.y) * TILE_SIZE );
 			return <div className={`overlays-grid${!locked ? ' zooming' : ''}`} style={{
 				transform: `translate(${this.dtx}px, ${this.dty}px)`
-			}}>{this.renderMarkers()}</div>;
+			}}>{this.renderMarkers(this.dtx, this.dty)}</div>;
 		}}</MapSharedContext.Consumer>;
 	}
 }
