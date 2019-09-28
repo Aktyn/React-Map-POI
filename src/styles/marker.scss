@@ -25,11 +25,19 @@
 	
 	&.group {
 		.counter {
-			color: nth($blueGrey, 2);
+			color: #fff;//nth($blueGrey, 1);
 			display: grid;
 			align-items: center;
 			font-size: 33%;
+			font-weight: bold;
+			text-shadow: 0px 0px 3px #0004,
+				-1px 0px 1px #0002,
+				1px 0px 1px #0002,
+				0px -1px 1px #0002,
+				0px 1px 1px #0002;
 		}
+		background-color: #607D8Ba0;
+		border-radius: 100vw;
 	}
 	
 	.bg {

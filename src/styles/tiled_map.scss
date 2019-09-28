@@ -1,7 +1,17 @@
 @import "global";
 
 .map-container {
-	& > .layers-container, & > .overlays {
+	.zoom-shifter {
+		pointer-events: none;
+		width: 100%;
+		height: 100%;
+		position: relative;
+		//user-select: none;
+		//left: 0;
+		//top: 0;
+	}
+	
+	.layers-container, .overlays {
 		width: 100%;
 		height: 100%;
 		position: absolute;
@@ -9,7 +19,7 @@
 		top: 0;
 	}
 	
-	& > .layers-container {//container for layers
+	.layers-container {//container for layers
 		pointer-events: auto;
 		user-select: none;
 		//cursor: grab;
@@ -60,7 +70,7 @@
 		}
 	}
 	
-	& > .overlays {
+	.overlays {
 		pointer-events: none;
 	}
 }

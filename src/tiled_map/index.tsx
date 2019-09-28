@@ -13,7 +13,7 @@ export interface MapSharedState {
 	centerTile: TilePos;
 }
 
-const startCamera = {//52°13'35.5''N    //21°01'44.5''E
+const startCamera = {
 	latitude: 51.107194,
 	longitude: 17.038750,
 	zoom: 15
@@ -38,16 +38,15 @@ interface MapProps {
 interface MapState extends MapSharedState {
 	grid: GridState;
 	grabPos: {x: number, y: number, timestamp: number}[];
-	
+	//pivot: {x: number, y: number};
 	layers: number[];
 }
 
 export default class TiledMap extends React.Component<MapProps, MapState> {
-	private static layersCounter = 0;
+	static layersCounter = 0;
 	
 	private urlGenerator: UrlGenerator | null = null;
 	private tileProvider: TileProviderData | null = null;
-	// = new UrlGenerator('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 	private zoomingTimeout: number | null = null;
 	
 	state: MapState = {
@@ -56,6 +55,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		grid: this.calculateGrid(),
 		
 		grabPos: [],
+		//pivot: {x: 0, y: 0},
 		
 		layers: [0]
 	};
@@ -71,6 +71,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	}
 	
 	componentDidUpdate(prevProps: Readonly<MapProps>, prevState: Readonly<MapState>) {
+		//console.log('report update');
 		if(prevProps.width !== this.props.width || prevProps.height !== this.props.height) {
 			this.setState({
 				grid: this.calculateGrid()
@@ -108,11 +109,14 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		};
 		
 		let updatedCamera = convertXYZToCamera(newCenter, this.state.camera.zoom);
+		this.state.centerTile = newCenter;
 		
 		this.setState({
 			centerTile: newCenter,
 			camera: updatedCamera
 		});
+		
+		return updatedCamera;
 	}
 	
 	private updateVelocity(vx: number, vy: number) {
@@ -176,7 +180,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		this.setState({grabPos});
 	}
 	
-	public zoom(factor: number, force = false) {
+	public zoom(factor: number, force = false, pivotX = this.props.width/2, pivotY = this.props.height/2) {
 		factor = clamp(factor, -1, 1);
 		
 		if(!this.tileProvider)
@@ -188,20 +192,13 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		if( (new_zoom === this.state.camera.zoom || this.state.zooming) && !force )
 			return;
 		
+		//pivotX -= this.props.width/2;
+		//pivotY -= this.props.height/2;
+		//console.log(pivotX, pivotY);
+		
 		//new_zoom = this.state.camera.zoom;//temp
 		
-		//zoomX = zoomX - this.props.width/2;
-		//zoomY = zoomY - this.props.height/2;
-		//console.log(zoomX, zoomY);
-		
-		/*let newCenter = {
-			x: this.state.centerTile.x + zoomX / TILE_SIZE,
-			y: this.state.centerTile.y + zoomY / TILE_SIZE
-		};
-		
-		let updatedCamera = convertXYZToCamera(newCenter, this.state.camera.zoom);
-		updatedCamera.zoom = new_zoom;
-		newCenter = convertLatLongToTile(updatedCamera);*/
+		//let moved_camera = this.move(-pivotX, -pivotY);
 		
 		let updatedCamera = {
 			...this.state.camera,
@@ -220,19 +217,24 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		this.setState({
 			centerTile: convertLatLongToTile(updatedCamera),
 			camera: updatedCamera,
-			/*pivotPoint: {
-				x: (zoomX - this.props.width/2) / TILE_SIZE,
-				y: (zoomY - this.props.height/2) / TILE_SIZE
-			},*/
 			zooming: true,
+			/*pivot: {
+				x: pivotX,
+				y: pivotY
+			},*/
 			layers: updatedLayers
 		});
 		
 		if(this.zoomingTimeout)
 			clearTimeout(this.zoomingTimeout);
 		this.zoomingTimeout = setTimeout(() => {
+			//this.move(this.state.pivot.x, this.state.pivot.y);
 			this.setState({
-				zooming: false
+				zooming: false,
+				/*pivot: {
+					x: 0,
+					y: 0
+				}*/
 			});
 			this.zoomingTimeout = null;
 		}, 400) as never;
@@ -256,22 +258,26 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 	}
 	
 	render() {
-		return <div className={'map-container'} style={{
+		return <div className={'map-container'} onWheel={e => {
+			this.zoom(-e.deltaY/53, false, e.clientX, e.clientY)
+		}} style={{
 			width: `${this.props.width}px`,
-			height: `${this.props.height}px`
+			height: `${this.props.height}px`,
+			//transform: `translate(${Math.floor(this.state.pivot.x)}px, ${Math.floor(this.state.pivot.y)}px)`
 		}}>
-			<div className={`layers-container${this.state.grabPos.length ? ' grabbed' : ''}`}
-			     onMouseDown={e => this.onGrabStart(e.clientX, e.clientY)}
-			     onTouchStart={e => this.onGrabStart(e.touches[0].clientX, e.touches[0].clientY)}
-			     onMouseUp={this.onGrabEnd.bind(this)}
-			     onTouchEnd={this.onGrabEnd.bind(this)}
-			     onMouseLeave={this.onGrabEnd.bind(this)}
-			     onMouseMove={e => this.onGrabMove(e.clientX, e.clientY)}
-			     onTouchMove={e => this.onGrabMove(e.touches[0].clientX, e.touches[0].clientY)}
-			     onWheel={e => this.zoom(-e.deltaY/53/*, e.clientX, e.clientY*/)}>{
-			     	this.renderLayers()
-			     }</div>
-			<div className={'overlays'}>{this.props.children}</div>
+			{/*<div className={'zoom-shifter'}>*/}
+				<div className={`layers-container${this.state.grabPos.length ? ' grabbed' : ''}`}
+				     onMouseDown={e => this.onGrabStart(e.clientX, e.clientY)}
+				     onTouchStart={e => this.onGrabStart(e.touches[0].clientX, e.touches[0].clientY)}
+				     onMouseUp={this.onGrabEnd.bind(this)}
+				     onTouchEnd={this.onGrabEnd.bind(this)}
+				     onMouseLeave={this.onGrabEnd.bind(this)}
+				     onMouseMove={e => this.onGrabMove(e.clientX, e.clientY)}
+				     onTouchMove={e => this.onGrabMove(e.touches[0].clientX, e.touches[0].clientY)}>{
+				        this.renderLayers()
+				     }</div>
+				<div className={'overlays'}>{this.props.children}</div>
+			{/*</div>*/}
 		</div>;
 	}
 }

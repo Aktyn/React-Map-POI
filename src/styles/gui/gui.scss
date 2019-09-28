@@ -48,7 +48,7 @@
 			}
 			animation: slide-from-right $slidingGuiTrans;
 			
-			$children: 1;
+			$children: 2;
 			@for $i from 1 through $children {
 				&:nth-child(#{$i}) {
 					//waits for left panel to finish it's animation

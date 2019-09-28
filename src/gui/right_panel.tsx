@@ -32,6 +32,9 @@ export default class RightPanel extends React.Component<any, RightPanelState> {
 				<span>loading</span> :
 				<span>Total objects: {MapObjects.getTotalCount()}</span>
 			}</div>
+			<div className={'legend'}>
+				todo
+			</div>
 		</div>;
 	}
 }
