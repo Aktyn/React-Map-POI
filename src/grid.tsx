@@ -3,7 +3,8 @@ import MapObjects, {EVENT, ObjectSchema} from './map_objects';
 import { MapSharedContext } from './app';
 import {convertLatLongToTile, TilePos} from "./utils";
 import {TILE_SIZE} from "./tiled_map/layer";
-import Marker, {MarkerData} from "./components/marker";
+import Marker, {MarkerData, MarkerDataSchema} from "./components/marker";
+import * as Settings from './user_settings';
 
 import './styles/overlays_grid.scss';
 import CONFIG from "./config";
@@ -17,10 +18,12 @@ interface GridState {
 	data: ObjectSchema;
 	markers: MarkerData[];
 	locked: boolean;
+	markerTypes: {[index: string]: MarkerDataSchema}
 }
 
 export default class Grid extends React.Component<GridProps, GridState> {
 	private readonly dataLoadListener = this.onDataLoaded.bind(this);
+	private readonly markerTypesUpdateListener = this.onMarkerTypesUpdate.bind(this);
 	
 	private dtx = 0;
 	private dty = 0;
@@ -33,15 +36,18 @@ export default class Grid extends React.Component<GridProps, GridState> {
 	state: GridState = {
 		data: [],
 		markers: [],
-		locked: false
+		locked: false,
+		markerTypes: Settings.getValue('marker-types')
 	};
 	
 	componentDidMount() {
 		MapObjects.on(EVENT.LOAD, this.dataLoadListener);
+		Settings.onValueChanged('marker-types', this.markerTypesUpdateListener);
 	}
 	
 	componentWillUnmount() {
 		MapObjects.off(EVENT.LOAD, this.dataLoadListener);
+		Settings.offValueChanged('marker-types', this.markerTypesUpdateListener);
 	}
 	
 	componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<GridState>) {
@@ -53,6 +59,10 @@ export default class Grid extends React.Component<GridProps, GridState> {
 	private onDataLoaded(data: ObjectSchema) {
 		this.setState({data});
 		this.preprocessData(data);
+	}
+	
+	private onMarkerTypesUpdate(value: {[index: string]: MarkerDataSchema}) {
+		this.setState({markerTypes: value});
 	}
 	
 	private static groupMarkers(markers: MarkerData[]) {
@@ -148,7 +158,7 @@ export default class Grid extends React.Component<GridProps, GridState> {
 			return <span className={'marker-holder'} key={marker_data.id} style={{
 				transform: `translate(${Math.floor(marker_data.relativePos.x)}px, ${
 					Math.floor(marker_data.relativePos.y)}px)`
-			}}><Marker data={marker_data} /></span>;
+			}}><Marker data={marker_data} markerTypes={this.state.markerTypes} /></span>;
 		});
 	}
 	

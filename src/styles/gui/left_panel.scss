@@ -26,7 +26,7 @@
 		vertical-align: top;
 		text-align: center;
 		$size: floor($zoomBtnSize * 2 * 0.618);
-		width: $size;
+		width: $size !important;
 		height: $size;
 		line-height: $size;
 	}

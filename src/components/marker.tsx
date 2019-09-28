@@ -1,28 +1,19 @@
 import * as React from 'react';
 import {ObjectDataSchema} from "../map_objects";
-
-import '../styles/marker.scss';
 import CONFIG from "../config";
+import Pin from "./pin";
 
-interface MarkerDataSchema {
+import '../styles/components/marker.scss';
+
+export interface MarkerDataSchema {
 	color: string;
 	icon: string;
 }
 
-const markerTypeData = new Map<string, MarkerDataSchema>([
-	['VEHICLE', {
-		color: '#ef5350',
-		icon: 'fa-car'
-	}],
-	['PARKING', {
-		color: '#26A69A',
-		icon: 'fa-parking'
-	}],
-	['POI', {
-		color: '#66BB6A',
-		icon: 'fa-dot-circle'
-	}]
-]);
+/*export const markerTypeData = new Map<string, MarkerDataSchema>(
+	Settings.getValue('marker-types')
+);*/
+const unknownMarkerTypeData: MarkerDataSchema = {color: '#555', icon: 'exclamation-triangle'};
 
 interface ElementSchema {
 	type: string;
@@ -38,47 +29,50 @@ export interface MarkerData {
 const markerSize = {
 	width: `${CONFIG.markerSize}px`,
 	height: `${CONFIG.markerSize}px`,
-	fontSize: `${CONFIG.markerSize}px`
+	//fontSize: `${CONFIG.markerSize}px`
 };
 
 interface MarkerProps {
 	data: MarkerData;
+	markerTypes: {[index: string]: MarkerDataSchema}
 }
 
-export default class Marker extends React.Component<MarkerProps> {
+interface MarkersState {
+
+}
+
+export default class Marker extends React.Component<MarkerProps, MarkersState> {
+	
+	state: MarkersState = {
+	
+	};
 	
 	componentDidUpdate(prevProps: Readonly<MarkerProps>) {
 		if(prevProps.data.elements.length !== this.props.data.elements.length) {
-			if(prevProps.data.elements.length < this.props.data.elements.length)
-				console.log('markers joined');
+			if(prevProps.data.elements.length < this.props.data.elements.length) {
+				//markers joined
+			}
+			else {
+				//markers split
+			}
 		}
 	}
 	
 	private renderGroup(elements: ElementSchema[]) {
-		return <div className={'marker group'} style={{
-			...markerSize,
-			color: '#607D8B'
-		}}>
-			<div className={'bg'} key={'group'}>
-				<i className="far fa-circle" style={{fontSize: `${CONFIG.markerSize}px`}}/>
+		let markerData = this.props.markerTypes['GROUP'] || unknownMarkerTypeData;
+		return <div className={'marker group'} style={markerSize}>
+			<div className={'bg fa-stack'} key={'group'}>
+				<Pin size={CONFIG.markerSize} markerData={markerData} elements={elements.length} />
 			</div>
-			<span className={'counter'}>{elements.length}</span>
 		</div>;
 	}
 	
 	private renderSingle(element: ElementSchema) {
-		const iconSize = {fontSize: `${Math.floor(CONFIG.markerSize*0.381)}px`};
-		let markerData = markerTypeData.get(element.type) || {color: '#555', icon: 'exclamation-triangle'};
+		let markerData = this.props.markerTypes[element.type] || unknownMarkerTypeData;
 		
-		return <div className={'marker single'} style={{
-			...markerSize,
-			color: markerData.color
-		}}>
-			<div className={'bg'} key={'single'}>
-				<i className="fas fa-map-marker" style={{fontSize: `${CONFIG.markerSize}px`}}/>
-			</div>
-			<div className={'icon'}>
-				<i className={`fas ${markerData.icon}`} style={iconSize} />
+		return <div className={'marker single'} style={markerSize}>
+			<div className={'bg fa-stack'} key={'single'}>
+				<Pin size={CONFIG.markerSize} markerData={markerData} />
 			</div>
 		</div>;
 	}

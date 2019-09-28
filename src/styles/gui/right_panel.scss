@@ -2,4 +2,37 @@
 .right-panel {
 	right: 0;
 	top: 0;
+	//text-align: right !important;
+	
+	.objects-counter {
+		margin-left: auto !important;
+	}
+	
+	.legend {
+		& > .markers {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr 1fr;
+			grid-template-rows: auto;
+			grid-column-gap: 10px;
+			align-items: stretch;
+			justify-content: center;
+			
+			& > * {
+				text-align: center;
+				
+				& > * {
+					margin: auto;
+				}
+			}
+		}
+		
+		input[type="color"] {
+			//border: 1px solid red;
+			border: none;
+			box-shadow: none;
+			outline: none;
+			height: 20px;
+			width: 100%;
+		}
+	}
 }

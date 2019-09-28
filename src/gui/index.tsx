@@ -1,8 +1,9 @@
 import * as React from 'react';
-import LeftPanel from "./left_panel";
-import RightPanel from "./right_panel";
 
 import '../styles/gui/gui.scss';
+
+import LeftPanel from "./left_panel";
+import RightPanel from "./right_panel";
 
 export default class GUI extends React.Component {
 	render() {

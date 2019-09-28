@@ -26,3 +26,12 @@
 		opacity: 1;
 	}
 }
+
+.white-btn {
+	background-color: #fff;
+	box-shadow: 0 1px 3px #0008;
+	padding: 4px 8px;
+	color: nth($blueGrey, 8);
+	font-size: 12px;
+	font-weight: bold;
+}
