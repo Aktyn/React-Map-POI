@@ -72,7 +72,7 @@ export default class RightPanel extends React.Component<any, RightPanelState> {
 	render() {//TODO: interface for changing marker icon with fontawesome
 		return <div className={'right-panel'}>
 			<div className={'objects-counter'}>{this.state.loadingData ?
-				<span>Loading data <i className='fas fa-spinner fa-pulse'/></span> :
+				<span>Loading data <span key={'loader'}><i className='fas fa-spinner fa-pulse'/></span></span> :
 				<span>Total objects: {MapObjects.getTotalCount()}</span>
 			}</div>
 			<div className={'legend'}>

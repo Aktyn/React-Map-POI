@@ -3,12 +3,40 @@ $blueGrey: #ECEFF1, #CFD8DC, #B0BEC5, #90A4AE, #78909C, #607D8B, #546E7A, #455A6
 
 //cubic-bezier(.87, -.41, .19, 1.44)
 
-//transitions
+//TRANSITIONS
 $zoomingTrans: 0.4s cubic-bezier(.36,.07,.19,.97);
 $hoverIconBtnTrans: opacity 0.15s ease-in-out;
 $bubbleTrans: 1s cubic-bezier(.36,.07,.19,.97);
 $slidingTransition: 0.4s cubic-bezier(.36,.07,.19,.97);
 
-//sizes
+//SIZES
 $zoomBtnSize: 20px;
 $appearanceOptionsNavSize: 20px;
+$popupHeight: 154px;
+$popupWidth: 250px;
+
+//UTIL FUNCTIONS
+
+@function strip-unit($number) {
+	@if type-of($number) == 'number' and not unitless($number) {
+		@return $number / ($number * 0 + 1);
+	}
+	
+	@return $number;
+}
+
+@function sqrt($r) {
+	$x0: 1;
+	$x1: $x0;
+	
+	@for $i from 1 through 10 {
+		$x1: $x0 - ($x0 * $x0 - abs($r)) / (2 * $x0);
+		$x0: $x1;
+	}
+	
+	@return $x1;
+}
+
+@function pow($n) {
+	@return $n*$n;
+}

@@ -20,6 +20,7 @@
 }
 
 .hover-icon {
+	cursor: pointer;
 	opacity: 0.66;
 	transition: $hoverIconBtnTrans;
 	&:hover {

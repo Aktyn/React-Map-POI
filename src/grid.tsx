@@ -147,7 +147,7 @@ export default class Grid extends React.Component<GridProps, GridState> {
 	
 	private renderMarkers(dtx: number, dty: number) {
 		const offset = 256;
-		return this.state.markers.map((marker_data) => {
+		return this.state.markers.map((marker_data, index, markers) => {
 			let posX = marker_data.relativePos.x + dtx;
 			let posY = marker_data.relativePos.y + dty;
 			if( posX < -(this.props.width/2+offset) || posX > this.props.width/2+offset ||
@@ -158,7 +158,12 @@ export default class Grid extends React.Component<GridProps, GridState> {
 			return <span className={'marker-holder'} key={marker_data.id} style={{
 				transform: `translate(${Math.floor(marker_data.relativePos.x)}px, ${
 					Math.floor(marker_data.relativePos.y)}px)`
-			}}><Marker data={marker_data} markerTypes={this.state.markerTypes} /></span>;
+			}}><Marker data={marker_data} markerTypes={this.state.markerTypes} requestFocus={() => {
+				//move marker to the top so it wont be hovered by any unopened marker
+				let self = markers.splice(index, 1);
+				markers.push(...self);
+				this.setState({markers});
+			}} /></span>;
 		});
 	}
 	

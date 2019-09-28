@@ -26,7 +26,7 @@
 			
 			$popTrans: 0.8s cubic-bezier(.87, -.41, .19, 1.44);
 			
-			animation: pop-in $popTrans;
+			//animation: pop-in $popTrans;
 			@keyframes pop-in {
 				0% {
 					transform: scale(0);
