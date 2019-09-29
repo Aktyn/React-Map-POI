@@ -68,7 +68,7 @@
 		opacity: 0;
 		text-align: center;
 		overflow: hidden;
-		border-radius: 10px;
+		border-radius: 5px;
 		
 		&.open {
 			//background-color: #F554;
@@ -76,7 +76,7 @@
 			display: block;
 			pointer-events: auto;
 			
-			transition: box-shadow $rippleSpeed ease-in-out;
+			transition: box-shadow ($rippleSpeed - 0.15s) 0.15s ease-in-out;
 			transform: translate(-50%, -100%) scale(1);
 			opacity: 1;
 			
@@ -141,18 +141,22 @@
 				}
 				height: 20px;
 				
+				padding: 0px 10px;
 				display: grid;
 				grid-template-columns: 1fr auto 1fr;
 				align-items: center;
-				justify-content: stretch;
+				justify-content: space-between;
 				
 				button {
 					color: inherit;
 				}
 				
-				& > button {
+				& > .focus-btn {
+					justify-self: left;
+				}
+				
+				& > .closer {
 					justify-self: right;
-					margin-right: 10px;
 				}
 				
 				& > label {
@@ -176,11 +180,35 @@
 				//overflow-x: visible;
 				transition: transform 0.5s cubic-bezier(.87, -.41, .19, 1.44);
 				
-				& > .details {
+				& > .details-container {
 					flex: none;
-					//height: 100%;
 					width: $popupWidth;
-					//background-color: #55f8;
+					
+					height: 100%;
+					
+					overflow-y: auto;
+					
+					// width
+					&::-webkit-scrollbar {
+					    width: 8px;
+					    height: 6px;
+					}
+					
+					// Track
+					&::-webkit-scrollbar-track {
+					    background-color: nth($blueGrey, 2);
+					}
+					
+					// Handle
+					&::-webkit-scrollbar-thumb {
+					    background-color: nth($blueGrey, 4);
+					    border-radius: 8px;
+					}
+					
+					// Handle on hover
+					&::-webkit-scrollbar-thumb:hover {
+					    background-color: nth($blueGrey, 3);
+					}
 				}
 			}
 		}

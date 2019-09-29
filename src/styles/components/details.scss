@@ -1,0 +1,46 @@
+@import "../global";
+
+.details {
+	padding: 5px;
+	& > .header-details {
+		display: grid;
+		grid-template-columns: auto auto;
+		justify-content: space-between;
+		
+		& > *:first-child {
+			text-align: left;
+		}
+	}
+	
+	& > .props-list {
+		display: grid;
+		grid-template-columns: fit-content(100%) auto;
+		align-items: stretch;
+		align-content: stretch;
+		grid-column-gap: 0px;
+		
+		/*& > *:nth-child(odd) {
+		
+		}
+		& > *:nth-child(even) {
+		
+		}*/
+		
+		& > label {
+			display: block;
+			justify-self: right;
+			text-align: right;
+			padding-right: 5px;
+		}
+		
+		& > label ~ *:not(label) {
+			justify-self: left;
+			text-align: left;
+		}
+		
+		& > * {
+			width: 100%;
+			border-bottom: 1px solid nth($blueGrey, 3);
+		}
+	}
+}

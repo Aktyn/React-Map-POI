@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MapObjects, {EVENT, ObjectSchema} from './map_objects';
 import { MapSharedContext } from './app';
-import {convertLatLongToTile, TilePos} from "./utils";
+import {convertLatLongToTile, TilePos} from "./common/utils";
 import {TILE_SIZE} from "./tiled_map/layer";
 import Marker, {MarkerData, MarkerDataSchema} from "./components/marker";
 import * as Settings from './user_settings';
@@ -145,7 +145,7 @@ export default class Grid extends React.Component<GridProps, GridState> {
 		return markers;
 	}
 	
-	private renderMarkers(dtx: number, dty: number) {
+	private renderMarkers(dtx: number, dty: number, move: (deltaX: number, deltaY: number) => void) {
 		const offset = 256;
 		return this.state.markers.map((marker_data, index, markers) => {
 			let posX = marker_data.relativePos.x + dtx;
@@ -158,11 +158,26 @@ export default class Grid extends React.Component<GridProps, GridState> {
 			return <span className={'marker-holder'} key={marker_data.id} style={{
 				transform: `translate(${Math.floor(marker_data.relativePos.x)}px, ${
 					Math.floor(marker_data.relativePos.y)}px)`
-			}}><Marker data={marker_data} markerTypes={this.state.markerTypes} requestFocus={() => {
+			}}><Marker data={marker_data} markerTypes={this.state.markerTypes} requestFocus={(popupBox) => {
 				//move marker to the top so it wont be hovered by any unopened marker
 				let self = markers.splice(index, 1);
 				markers.push(...self);
 				this.setState({markers});
+				
+				let shiftX = 0, shiftY = 0;
+				if(popupBox.left < 0)
+					shiftX = -popupBox.left;
+				if(popupBox.right > this.props.width)
+					shiftX = this.props.width - popupBox.right;
+				if(popupBox.top < 0)
+					shiftY = -popupBox.top;
+				if(popupBox.bottom > this.props.height)
+					shiftX = this.props.height - popupBox.bottom;
+				
+				if(shiftX !== 0 || shiftY !== 0)
+					move(shiftX, shiftY);
+			}} requestCenter={() => {
+				move(-marker_data.relativePos.x-dtx, -marker_data.relativePos.y-dty);
 			}} /></span>;
 		});
 	}
@@ -201,7 +216,7 @@ export default class Grid extends React.Component<GridProps, GridState> {
 			this.dty = Math.floor( (this.fromContext.overlaysCenter.y - context.centerTile.y) * TILE_SIZE );
 			return <div className={`overlays-grid${!locked ? ' zooming' : ''}`} style={{
 				transform: `translate(${this.dtx}px, ${this.dty}px)`
-			}}>{this.renderMarkers(this.dtx, this.dty)}</div>;
+			}}>{this.renderMarkers(this.dtx, this.dty, context.move)}</div>;
 		}}</MapSharedContext.Consumer>;
 	}
 }

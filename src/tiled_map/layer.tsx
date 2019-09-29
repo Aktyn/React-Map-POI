@@ -1,6 +1,6 @@
 import * as React from 'react';
 import UrlGenerator from "./url_generator";
-import {CameraState, TilePos} from "../utils";
+import {CameraState, TilePos} from "../common/utils";
 import Tile from "./tile";
 
 export const TILE_SIZE = 256;//256x256 is common tile resolution

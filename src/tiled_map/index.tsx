@@ -1,7 +1,7 @@
 import * as React from 'react';
 import UrlGenerator from "./url_generator";
 import Layer, {GridState, TILE_SIZE} from "./layer";
-import {CameraState, TilePos, convertLatLongToTile, convertXYZToCamera, clamp} from "../utils";
+import {CameraState, TilePos, convertLatLongToTile, convertXYZToCamera, clamp} from "../common/utils";
 import { MapSharedContext } from '../app';
 import {ProviderDefaults, TileProviderData} from "../config";
 
@@ -101,7 +101,7 @@ export default class TiledMap extends React.Component<MapProps, MapState> {
 		};
 	}
 	
-	private move(deltaX: number, deltaY: number) {//in pixels
+	public move(deltaX: number, deltaY: number) {//in pixels
 		const maxTile = 2 ** this.state.camera.zoom;
 		let newCenter = {
 			x: Math.max(0, Math.min(maxTile, this.state.centerTile.x - deltaX / TILE_SIZE)),

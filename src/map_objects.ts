@@ -25,13 +25,13 @@ interface Picture {
 	contentType?: null;
 }
 
-interface Address {
+export interface Address {
 	street?: string | null;
 	house?: string | null;
 	city: string;
 }
 
-interface CommonSchema {
+export interface CommonSchema {
 	id: string;
 	name: string;
 	discriminator: string;
@@ -42,7 +42,7 @@ interface CommonSchema {
 	metadata?: null | Object;
 }
 
-interface VehicleSchema extends CommonSchema {
+export interface VehicleSchema extends CommonSchema {
 	platesNumber: string;
 	sideNumber: string;
 	type: string;

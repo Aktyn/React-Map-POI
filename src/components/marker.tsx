@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {ObjectDataSchema} from "../map_objects";
 import CONFIG from "../config";
-import Pin from "./pin";
+import Pin from "./pin"
+import {ObjectDetails} from "./details";
 
 import '../styles/components/marker.scss';
 
@@ -31,7 +32,8 @@ const markerSize = {
 interface MarkerProps {
 	data: MarkerData;
 	markerTypes: {[index: string]: MarkerDataSchema};
-	requestFocus(): void;
+	requestFocus(popupBounds: ClientRect | DOMRect): void;
+	requestCenter(): void;
 }
 
 interface MarkersState {
@@ -40,8 +42,8 @@ interface MarkersState {
 }
 
 export default class Marker extends React.Component<MarkerProps, MarkersState> {
-	private detailsScroller: HTMLDivElement | null = null;
-	
+	private popupRef: HTMLDivElement | null = null;
+
 	state: MarkersState = {
 		open: false,
 		focusedElement: 0
@@ -50,7 +52,10 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 	componentDidUpdate(prevProps: Readonly<MarkerProps>) {
 		if(prevProps.data.elements.length !== this.props.data.elements.length) {
 			if(this.state.open)
-				this.setState({open: false});
+				this.setState({
+					open: false,
+					focusedElement: 0
+				});
 			
 			if(prevProps.data.elements.length < this.props.data.elements.length) {
 				//markers joined
@@ -60,16 +65,19 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 			}
 		}
 		
-		if(this.detailsScroller) {
-			//this.detailsScroller.scrollLeft = 50;
+		if(prevProps.data.relativePos !== this.props.data.relativePos && this.state.open) {
+			this.setState({
+				open: false,
+				focusedElement: 0
+			});
 		}
 	}
 	
-	private open(/*event: React.MouseEvent<HTMLDivElement>*/) {
+	private open() {
 		this.setState({open: true});
 		setTimeout(() => {
-			if(this.state.open)
-				this.props.requestFocus();
+			if(this.state.open && this.popupRef)
+				this.props.requestFocus(this.popupRef.getBoundingClientRect());
 		}, 400);
 	}
 	
@@ -93,20 +101,7 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 		</div>;
 	}
 	
-	private renderDetails(element: ElementSchema) {
-		switch (element.type) {
-			case 'VEHICLE':
-				return 'VEHICLE';
-			case 'PARKING':
-				return 'PARKING';
-			case 'POI':
-				return 'POI';
-		}
-		return 'ERROR: Unknown element type';
-	}
-	
 	private pageTo(index: number) {
-		console.log('index');
 		this.setState({focusedElement: index});
 	}
 	
@@ -139,23 +134,32 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 					this.renderGroup(this.props.data.elements) :
 					this.renderSingle(this.props.data.elements[0])
 			}
-			<div className={`popup${this.state.open ? ' open' : ''}`} onClick={() => this.props.requestFocus()}>
+			<div className={`popup${this.state.open ? ' open' : ''}`} onClick={() => {
+				if(this.popupRef)
+					this.props.requestFocus(this.popupRef.getBoundingClientRect());
+			}}
+				ref={el => this.popupRef = el}
+			>
 				<span className={'ripple'} />
 				<section className={'content'}>
 					<header className={isGroup ? 'dark' : ''}>
-						<span/>
+						<button className={'clean shaky-icon hover-icon focus-btn'} onClick={() => {
+							this.props.requestCenter();
+						}}><i className="fas fa-compress-arrows-alt"/></button>
 						{ isGroup ? this.renderPager() : <span/> }
-						<button className={'clean shaky-icon hover-icon'} onClick={() => {
+						<button className={'clean shaky-icon hover-icon closer'} onClick={() => {
 							this.setState({open: false})
 						}}><i className="fas fa-times"/></button>
 					</header>
 					
-					<div className={'details-scroller'} ref={el => this.detailsScroller = el} style={{
+					<div className={'details-scroller'} style={{
 						transform: `translateX(${-100*this.state.focusedElement}%)`
+					}} onWheel={(e) => {
+						e.stopPropagation();
 					}}>{
 						this.props.data.elements.map(element => {
-							return <div className={'details'} key={element.data.id}>
-								{this.renderDetails(element)}
+							return <div className={'details-container'} key={element.data.id}>
+								<ObjectDetails {...element} />
 							</div>;
 						})
 					}</div>

@@ -2,19 +2,21 @@ import * as React from 'react';
 import TiledMap, {defaultSharedState, MapSharedState} from "./tiled_map";
 import Grid from "./grid";
 import GUI from "./gui";
-import {noop} from "./utils";
+import {noop} from "./common/utils";
 import CONFIG, {TileProviderData} from "./config";
 
 import './styles/app.scss';
 
 interface MapSharedContextInterface extends MapSharedState {
 	zoom(factor: number, force?: boolean): void;
+	move(deltaX: number, deltaY: number): void;
 	tileProvider: TileProviderData;
 	changeTileProvider(provider: TileProviderData): void;
 }
 export const MapSharedContext = React.createContext<MapSharedContextInterface>({
 	...defaultSharedState,
 	zoom: noop,
+	move: noop,
 	changeTileProvider: noop,
 	tileProvider: CONFIG.tileProviders[0]
 });
@@ -67,6 +69,10 @@ export default class App extends React.Component<any, AppState> {
 				zoom: (factor, force) => {
 					if(this.mapReference)
 						this.mapReference.zoom(factor, !!force);
+				},
+				move: (deltaX: number, deltaY: number) => {
+					if(this.mapReference)
+						this.mapReference.move(deltaX, deltaY);
 				},
 				tileProvider: this.state.tileProvider,
 				changeTileProvider: (provider) => {

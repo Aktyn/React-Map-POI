@@ -1,7 +1,7 @@
 import * as React from 'react';
 import CONFIG, {ProviderDefaults, TileProviderData} from "../config";
 import UrlGenerator from "../tiled_map/url_generator";
-import {clamp, convertLatLongToTile} from "../utils";
+import {clamp, convertLatLongToTile} from "../common/utils";
 import { MapSharedContext } from '../app';
 
 import '../styles/gui/appearance.scss';
