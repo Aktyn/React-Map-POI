@@ -18,7 +18,7 @@ function HeaderDetails({data, status}: {data: CommonSchema, status?: string}) {
 			<strong>{data.name}</strong>
 			{status && <><br/><span className={'status'}>{status}</span></>}
 		</div>
-		<span><NorthEastCoords {...data.location} /></span>
+		<span className={'coords'}><NorthEastCoords {...data.location} /></span>
 	</div>;
 }
 
@@ -46,7 +46,7 @@ function VehicleDetails({data}: {data: VehicleSchema}) {
 
 function ParkingDetails({data}: {data: ParkingSchema}) {
 	return <DetailsBase data={data}>
-		<label>Spaces:</label><span>{data.availableSpacesCount}/{data.spacesCount}</span>
+		<label>Taken spaces:</label><span>{data.spacesCount - data.availableSpacesCount}/{data.spacesCount}</span>
 		{(data.chargers && data.chargers.length > 0) && <><label>Chargers:</label><span>{data.chargers}</span></>}
 	</DetailsBase>;
 }

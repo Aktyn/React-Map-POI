@@ -1,27 +1,13 @@
 import {EventEmitter} from "events";
 import {noop} from "./common/utils";
+import {defaultMarkerTypes} from "./components/marker";
+import {defaultFilters} from "./markers_filter";
 
 const emitter = new EventEmitter();
 
 const DEFAULTS = {
-	'marker-types': {
-		'VEHICLE': {
-			color: '#ef5350',
-			icon: 'fas fa-car'
-		},
-		'PARKING': {
-			color: '#26A69A',
-			icon: 'fas fa-parking'
-		},
-		'POI': {
-			color: '#66BB6A',
-			icon: 'fas fa-dot-circle'
-		},
-		'GROUP': {
-			color: '#607D8B',
-			icon: 'far fa-circle'
-		}
-	}
+	'marker-types': defaultMarkerTypes,
+	'filters': defaultFilters
 };
 
 type setting_name = keyof typeof DEFAULTS;

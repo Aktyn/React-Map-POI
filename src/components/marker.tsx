@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ObjectDataSchema, VehicleSchema} from "../map_objects";
+import {ObjectDataSchema, ObjectType, VehicleSchema} from "../map_objects";
 import CONFIG from "../config";
 import Pin from "./pin"
 import {ObjectDetails} from "./details";
@@ -12,10 +12,29 @@ export interface MarkerDataSchema {
 	icon: string;
 }
 
+export const defaultMarkerTypes: {[index: string]: MarkerDataSchema} = {
+	'VEHICLE': {
+		color: '#ef5350',
+		icon: 'fas fa-car'
+	},
+	'PARKING': {
+		color: '#26A69A',
+		icon: 'fas fa-parking'
+	},
+	'POI': {
+		color: '#66BB6A',
+		icon: 'fas fa-dot-circle'
+	},
+	'GROUP': {
+		color: '#607D8B',
+		icon: 'far fa-circle'
+	}
+};
+
 const unknownMarkerTypeData: MarkerDataSchema = {color: '#555', icon: 'exclamation-triangle'};
 
 interface ElementSchema {
-	type: string;
+	type: ObjectType;
 	data: ObjectDataSchema;
 }
 
@@ -82,7 +101,10 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 			open: false,
 			focusedElement: 0
 		});
-		this.props.onClosed();
+		setTimeout(() => {
+			if(!this.state.open)
+				this.props.onClosed();
+		}, 400);
 	}
 	
 	private renderGroup(elements: ElementSchema[]) {

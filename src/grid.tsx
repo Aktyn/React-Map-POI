@@ -5,9 +5,10 @@ import {convertLatLongToTile, TilePos} from "./common/utils";
 import {TILE_SIZE} from "./tiled_map/layer";
 import Marker, {MarkerData, MarkerDataSchema} from "./components/marker";
 import * as Settings from './user_settings';
+import CONFIG from "./config";
+import {filter} from "./markers_filter";
 
 import './styles/overlays_grid.scss';
-import CONFIG from "./config";
 
 interface GridProps {
 	width: number;
@@ -24,6 +25,7 @@ interface GridState {
 export default class Grid extends React.Component<GridProps, GridState> {
 	private readonly dataLoadListener = this.onDataLoaded.bind(this);
 	private readonly markerTypesUpdateListener = this.onMarkerTypesUpdate.bind(this);
+	private readonly filtersUpdateListener = this.onFiltersUpdate.bind(this);
 	
 	private dtx = 0;
 	private dty = 0;
@@ -43,17 +45,18 @@ export default class Grid extends React.Component<GridProps, GridState> {
 	componentDidMount() {
 		MapObjects.on(EVENT.LOAD, this.dataLoadListener);
 		Settings.onValueChanged('marker-types', this.markerTypesUpdateListener);
+		Settings.onValueChanged('filters', this.filtersUpdateListener);
 	}
 	
 	componentWillUnmount() {
 		MapObjects.off(EVENT.LOAD, this.dataLoadListener);
 		Settings.offValueChanged('marker-types', this.markerTypesUpdateListener);
+		Settings.offValueChanged('filters', this.filtersUpdateListener);
 	}
 	
 	componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<GridState>) {
-		if(this.state.locked && !prevState.locked) {
-			this.preprocessData(this.state.data);
-		}
+		if(this.state.locked && !prevState.locked)
+			this.preprocessData();
 	}
 	
 	private onDataLoaded(data: ObjectSchema) {
@@ -63,6 +66,10 @@ export default class Grid extends React.Component<GridProps, GridState> {
 	
 	private onMarkerTypesUpdate(value: {[index: string]: MarkerDataSchema}) {
 		this.setState({markerTypes: value});
+	}
+	
+	private onFiltersUpdate(/*filters: FiltersSchema*/) {
+		this.preprocessData();
 	}
 	
 	private static groupMarkers(markers: MarkerData[]) {
@@ -95,7 +102,7 @@ export default class Grid extends React.Component<GridProps, GridState> {
 		return grouped;
 	}
 	
-	private preprocessData(data: ObjectSchema) {
+	private preprocessData(data: ObjectSchema = this.state.data) {
 		if( !this.fromContext )
 			return;
 		
@@ -104,6 +111,8 @@ export default class Grid extends React.Component<GridProps, GridState> {
 		
 		for(let obj_type of data) {
 			for(let obj of obj_type.objects) {
+				if( !filter(obj, obj_type.type) )
+					continue;
 				let tilePos = convertLatLongToTile({
 					latitude: obj.location.latitude,
 					longitude: obj.location.longitude,
