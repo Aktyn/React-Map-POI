@@ -176,6 +176,11 @@ export default class Grid extends React.Component<GridProps, GridState> {
 				
 				if(shiftX !== 0 || shiftY !== 0)
 					move(shiftX, shiftY);
+			}} onClosed={() => {
+				//move marker to the bottom so it will no longer be on top of other popups
+				let self = markers.splice(index, 1);
+				markers.unshift(...self);
+				this.setState({markers});
 			}} requestCenter={() => {
 				move(-marker_data.relativePos.x-dtx, -marker_data.relativePos.y-dty);
 			}} /></span>;

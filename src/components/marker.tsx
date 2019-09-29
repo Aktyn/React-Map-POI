@@ -3,6 +3,7 @@ import {ObjectDataSchema} from "../map_objects";
 import CONFIG from "../config";
 import Pin from "./pin"
 import {ObjectDetails} from "./details";
+import {getContrastColor} from "../common/utils";
 
 import '../styles/components/marker.scss';
 
@@ -34,6 +35,7 @@ interface MarkerProps {
 	markerTypes: {[index: string]: MarkerDataSchema};
 	requestFocus(popupBounds: ClientRect | DOMRect): void;
 	requestCenter(): void;
+	onClosed(): void;
 }
 
 interface MarkersState {
@@ -52,10 +54,7 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 	componentDidUpdate(prevProps: Readonly<MarkerProps>) {
 		if(prevProps.data.elements.length !== this.props.data.elements.length) {
 			if(this.state.open)
-				this.setState({
-					open: false,
-					focusedElement: 0
-				});
+				this.close();
 			
 			if(prevProps.data.elements.length < this.props.data.elements.length) {
 				//markers joined
@@ -66,10 +65,7 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 		}
 		
 		if(prevProps.data.relativePos !== this.props.data.relativePos && this.state.open) {
-			this.setState({
-				open: false,
-				focusedElement: 0
-			});
+			this.close();
 		}
 	}
 	
@@ -81,6 +77,13 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 		}, 400);
 	}
 	
+	private close() {
+		this.setState({
+			open: false,
+			focusedElement: 0
+		});
+		this.props.onClosed();
+	}
 	
 	private renderGroup(elements: ElementSchema[]) {
 		let markerData = this.props.markerTypes['GROUP'] || unknownMarkerTypeData;
@@ -109,7 +112,12 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 		let count = this.props.data.elements.length;
 		let prev = Math.max(0, this.state.focusedElement-1);
 		let next = Math.min(count-1, this.state.focusedElement+1);
-		return <label>
+		return <label onWheel={e => {
+			this.pageTo(Math.max(0, Math.min(count-1,
+				Math.round(this.state.focusedElement + e.deltaY/53)
+			)));
+			e.stopPropagation();
+		}}>
 			<button className={'clean hover-icon'} key={'full-left'} onClick={() => this.pageTo(0)}>
 				<i key={'abc'} className="fas fa-angle-double-left"/>
 			</button>
@@ -128,6 +136,9 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 	
 	render() {
 		let isGroup = this.props.data.elements.length > 1;
+		let focusedElement = this.props.data.elements[this.state.focusedElement];
+		let focusedType = focusedElement ? focusedElement.type : 'GROUP';
+		const headerBgColor = this.props.markerTypes[focusedType].color;
 		return <div className={'marker-container'}>
 			{
 				this.props.data.elements.length > 1 ?
@@ -142,13 +153,16 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 			>
 				<span className={'ripple'} />
 				<section className={'content'}>
-					<header className={isGroup ? 'dark' : ''}>
+					<header style={!isGroup ? {} : {
+						backgroundColor: headerBgColor,
+						color: getContrastColor(headerBgColor) ? '#263238' : '#ECEFF1'
+					}}>
 						<button className={'clean shaky-icon hover-icon focus-btn'} onClick={() => {
 							this.props.requestCenter();
 						}}><i className="fas fa-compress-arrows-alt"/></button>
 						{ isGroup ? this.renderPager() : <span/> }
 						<button className={'clean shaky-icon hover-icon closer'} onClick={() => {
-							this.setState({open: false})
+							this.close();
 						}}><i className="fas fa-times"/></button>
 					</header>
 					

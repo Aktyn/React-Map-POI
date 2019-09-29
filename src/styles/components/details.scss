@@ -12,12 +12,17 @@
 		}
 	}
 	
+	.status {
+		font-size: 11px;
+	}
+	
 	& > .props-list {
 		display: grid;
-		grid-template-columns: fit-content(100%) auto;
+		grid-template-columns: auto auto;
 		align-items: stretch;
 		align-content: stretch;
 		grid-column-gap: 0px;
+		grid-row-gap: 3px;
 		
 		/*& > *:nth-child(odd) {
 		
@@ -26,11 +31,14 @@
 		
 		}*/
 		
+		font-size: 11px;
+		
 		& > label {
 			display: block;
 			justify-self: right;
 			text-align: right;
 			padding-right: 5px;
+			color: nth($blueGrey, 6);
 		}
 		
 		& > label ~ *:not(label) {
@@ -38,9 +46,9 @@
 			text-align: left;
 		}
 		
-		& > * {
+		& > *:not(:nth-last-child(1)):not(:nth-last-child(2)) {
 			width: 100%;
-			border-bottom: 1px solid nth($blueGrey, 3);
+			border-bottom: 1px solid mix(nth($blueGrey, 2), nth($blueGrey, 3));
 		}
 	}
 }

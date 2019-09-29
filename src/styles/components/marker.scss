@@ -135,10 +135,12 @@
 			transition: opacity $rippleSpeed ($rippleSpeed/2) ease-in-out;
 			
 			& > header {
-				&.dark {
+				/*&.dark {
 					background-color: nth($blueGrey, 8);
 					color: nth($blueGrey, 1);
-				}
+				}*/
+				$colorTrans: 0.3s ease-in-out;
+				transition: background-color $colorTrans, color $colorTrans;
 				height: 20px;
 				
 				padding: 0px 10px;
@@ -190,7 +192,7 @@
 					
 					// width
 					&::-webkit-scrollbar {
-					    width: 8px;
+					    width: 6px;
 					    height: 6px;
 					}
 					

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {MarkerDataSchema} from "./marker";
+//import {getContrastColor} from "../common/utils";
 
 import '../styles/components/pin.scss';
 
@@ -13,7 +14,8 @@ export default function Pin(props: {size: number, markerData: MarkerDataSchema, 
 			<>
 				<i className="pin-icon fas fa-map-marker" style={{fontSize: `${props.size}px`}}/>
 				<i className={`icon ${props.markerData.icon}`} style={{
-					fontSize: `${Math.floor(props.size*0.381)}px`
+					fontSize: `${Math.floor(props.size*0.381)}px`,
+					//color: getContrastColor(props.markerData.color) ? '#0008' : '#FFF8'
 				}}/>
 			</> :
 			<>

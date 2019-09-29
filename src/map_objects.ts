@@ -93,18 +93,26 @@ async function loadObjectsData(obj: {type: string, objects: ObjectDataSchema[]})
 	return obj;
 }
 
-if( process.env.NODE_ENV === 'development' ) {
+function loadFromFiles() {
 	OBJECTS[0].objects = require('./test_data/VEHICLE.json').objects;
 	OBJECTS[1].objects = require('./test_data/PARKING.json').objects;
 	OBJECTS[2].objects = require('./test_data/POI.json').objects;
 	loaded = true;
 	emitter.emit(EVENT.LOAD, OBJECTS);
 }
+
+if( process.env.NODE_ENV === 'development' ) {
+	loadFromFiles();
+}
 else {
 	Promise.all(OBJECTS.map(obj => loadObjectsData(obj))).then(() => {
 		loaded = true;
 		emitter.emit(EVENT.LOAD, OBJECTS);
-	}).catch(console.error);
+	}).catch((e) => {
+		console.error(e);
+		console.log('Service unavailable. Loading data from test files');
+		loadFromFiles();
+	});
 }
 
 

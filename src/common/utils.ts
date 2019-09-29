@@ -37,3 +37,21 @@ export function convertXYZToCamera(tile: TilePos, zoom: number): CameraState {
 		zoom
 	};
 }
+
+export function getContrastColor(hexColor: string) {//true - use dark, false - use light
+	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+	let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+	let hex = hexColor.replace(shorthandRegex, function (xd, r, g, b) {
+		return r + r + g + g + b + b;
+	});
+	
+	let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	if (!result)
+		return true;
+	
+	let r = parseInt(result[1], 16);
+	let g = parseInt(result[2], 16);
+	let b = parseInt(result[3], 16);
+	let yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+	return yiq >= 128;
+}
