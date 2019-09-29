@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ObjectDataSchema} from "../map_objects";
+import {ObjectDataSchema, VehicleSchema} from "../map_objects";
 import CONFIG from "../config";
 import Pin from "./pin"
 import {ObjectDetails} from "./details";
@@ -96,10 +96,11 @@ export default class Marker extends React.Component<MarkerProps, MarkersState> {
 	
 	private renderSingle(element: ElementSchema) {
 		let markerData = this.props.markerTypes[element.type] || unknownMarkerTypeData;
+		let status = element.type === 'VEHICLE' && (element.data as VehicleSchema).status;
 		
 		return <div className={'marker single'} style={markerSize} onClick={this.open.bind(this)}>
 			<div className={'bg fa-stack'} key={'single'}>
-				<Pin size={CONFIG.markerSize} markerData={markerData} />
+				<Pin size={CONFIG.markerSize} markerData={markerData} elements={1} available={status === 'AVAILABLE'} />
 			</div>
 		</div>;
 	}

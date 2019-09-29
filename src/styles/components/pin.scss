@@ -26,7 +26,13 @@
 		font-size: initial;
 		transform: translateY(-50%);
 		color: #FFF8;
-		//opacity: 0.5;
+	}
+	
+	.status {
+		font-size: 25%;
+		color: #FFF8;
+		top: 76%;
+		transform: translateY(-100%);
 	}
 	
 	&.group {

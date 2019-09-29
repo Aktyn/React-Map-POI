@@ -4,7 +4,8 @@ import {MarkerDataSchema} from "./marker";
 
 import '../styles/components/pin.scss';
 
-export default function Pin(props: {size: number, markerData: MarkerDataSchema, elements?: number}) {
+export default function Pin(props: {size: number, markerData: MarkerDataSchema, elements?: number, available?: boolean})
+{
 	let elements = props.elements || 1;
 	return <div className={`pin fa-stack${elements > 1 ? ' group' : ''}`} style={{
 		fontSize: `${props.size}px`,
@@ -17,6 +18,9 @@ export default function Pin(props: {size: number, markerData: MarkerDataSchema, 
 					fontSize: `${Math.floor(props.size*0.381)}px`,
 					//color: getContrastColor(props.markerData.color) ? '#0008' : '#FFF8'
 				}}/>
+				{props.available ? <i className="status pin-icon fas fa-check"
+				                      style={{fontSize: `${Math.floor(props.size*0.2)}px`}}/> :
+					undefined}
 			</> :
 			<>
 				<i className={`pin-icon ${[props.markerData.icon]}`} style={{fontSize: `${props.size}px`}}/>
